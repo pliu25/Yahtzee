@@ -1,9 +1,17 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <title>Yahtzee: Login</title>
+</head>
 <body>
-
-<h1>My First Heading</h1>
-<p>My first paragraph.</p>
+    <form action="/game" method="GET">
+        <label for="fname">Username:</label><br>
+        <input type="text" id="username_input" name="username"><br>
+        <label for="lname">Password:</label><br>
+        <input type="text" id="password_input" name="password"><br><br>
+        <input type="submit" id="login_submit" value="Submit">
+      </form> 
 
 </body>
+{% include 'footer.html' %}
 </html>

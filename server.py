@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import request
 from flask import render_template
+import os
 import json
 import math
 
@@ -12,6 +13,10 @@ def login():
 
 @app.route('/game')
 def game():
-    return render_template("game.html")
+    username = request.args.get("username")
+    
+    return render_template("game.html", username = username)
 
-app.run(debug=True)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8080))
+    app.run(debug=True, port = 8080)
