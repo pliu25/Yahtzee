@@ -4,8 +4,7 @@ import Dice from './Dice.js';
 
 //-------Dice Setup--------//
 let roll_button = document.getElementById('roll_button'); 
-roll_button.addEventListener('click', roll_dice_handler);
-
+roll_button.addEventListener('click', roll_dice_handler) 
 
 let dice_elements =[];
 
@@ -14,11 +13,9 @@ for (let i = 0; i<5; i++){
     die.addEventListener('dblclick', reserve_die_handler);
     dice_elements.push(die);
 }
+let rolls_remaining_element = document.getElementById("rolls_remaining");
 
-
-let rolls_remainging_element = document.getElementById("rolls_remaining");
-
-let dice = new Dice(dice_elements, rolls_remainging_element);
+let dice = new Dice(dice_elements, rolls_remaining_element);
 
 window.dice = dice; //useful for testing to add a reference to global window object
 
@@ -50,7 +47,7 @@ function reserve_die_handler(event){
 function roll_dice_handler(){
     display_feedback("Rolling the dice...", "good");
     dice.roll();
-
+    dice.get_rolls_remaining();
     console.log("Dice values:", dice.get_values());
     console.log("Sum of all dice:", dice.get_sum());
     console.log("Count of all dice faces:", dice.get_counts());
