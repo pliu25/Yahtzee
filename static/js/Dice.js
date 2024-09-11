@@ -52,6 +52,15 @@ class Dice{
      * <br> Uses this.set to update dice
     */
     roll(){
+        
+        let dice_photos =["one.svg", "two.svg", "three.svg", "four.svg", "five.svg", "six.svg"]
+
+        for (let i = 0; i<5; i++){
+            let die = document.getElementById("die_"+i);
+            die.src = "/img/" + String(dice_photos[(Math.floor(Math.random() * dice_photos.length))])
+            //die.addEventListener('dblclick', reserve_die_handler);
+            this.dice_elements.push(die);
+        }
 
     }
 

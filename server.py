@@ -17,6 +17,8 @@ def game():
     
     return render_template("game.html", username = username)
 
+#console.log sends output to client (inspect page on google)
+#console = real time view
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
     app.run(debug=True, port = 8080)
