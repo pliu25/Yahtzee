@@ -4,7 +4,7 @@ import Dice from './Dice.js';
 
 //-------Dice Setup--------//
 let roll_button = document.getElementById('roll_button'); 
-roll_button.addEventListener('click', roll_dice_handler) 
+roll_button.addEventListener('click', roll_dice_handler);
 
 let dice_elements =[];
 

@@ -1,9 +1,9 @@
 console.log("Dice.js connected")
 class Dice{
-    constructor(dice_elements, rolls_remaining_element, /*roll_button*/){
+    constructor(dice_elements, rolls_remaining_element, roll_button){
         this.rolls_remaining_element= rolls_remaining_element;
         this.dice_elements= dice_elements;
-        //this.roll_button = roll.button;
+        this.roll_button = roll_button;
         this.photo_names=["blank", "one", "two", "three", "four", "five", "six"]
     }
 
@@ -12,12 +12,17 @@ class Dice{
      * @return {Number} an integer representing the number of rolls remaining for a turn
     */
     get_rolls_remaining(){
-        var count = 3; 
+       /*let roll_button = document.getElementById('roll_button');
+        roll_button.addEventListener('click', rolls); 
 
-        this.roll_button.addEventListener('click',function() {
-            count--;
-        });
-        return count; 
+        function rolls() {
+            for (let count = 3; count > -1; count--) {
+                this.rolls_remaining_element.innerHTML = count; 
+                //return count; 
+            }
+        }*/
+       count = int(this.rolls_remaining_element.innerHTML)
+       console.log(count);
     }
 
     /**
@@ -28,7 +33,7 @@ class Dice{
      * @return {Array} an array of integers representing dice values of dice pictures
     */
     get_values(){
-
+        return this.dice_elements;
     }
 
     /**
@@ -67,6 +72,8 @@ class Dice{
             //die.addEventListener('dblclick', reserve_die_handler);
             this.dice_elements.push(die);
         }
+
+        this.set()
 
     }
 
