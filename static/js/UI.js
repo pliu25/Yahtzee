@@ -45,6 +45,7 @@ function reserve_die_handler(event){
 }
 
 function roll_dice_handler(){
+    rolls_remaining_element;
     display_feedback("Rolling the dice...", "good");
     dice.roll();
     dice.get_rolls_remaining();

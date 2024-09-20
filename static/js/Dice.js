@@ -21,8 +21,9 @@ class Dice{
                 //return count; 
             }
         }*/
-       count = int(this.rolls_remaining_element.innerHTML)
+       let count = Number(this.rolls_remaining_element.innerText);
        console.log(count);
+       return count;
     }
 
     /**
@@ -33,6 +34,14 @@ class Dice{
      * @return {Array} an array of integers representing dice values of dice pictures
     */
     get_values(){
+        //let current_view; 
+        //num_array = [0, 1, 2, 3, 4, 5, 6];
+        
+        for (let die in this.dice_elements.slice(Math.max(this.dice_elements.length - 5, 0))) {
+            console.log(this.dice_elements[die].src);
+        }
+
+        //console.log(this.dice_elements);
         return this.dice_elements;
     }
 
@@ -72,8 +81,12 @@ class Dice{
             //die.addEventListener('dblclick', reserve_die_handler);
             this.dice_elements.push(die);
         }
-
-        this.set()
+        
+        //this.set()
+        console.log("roll", this.dice_elements);
+        this.rolls_remaining_element = Number(this.rolls_remaining_element.innerText) - 1; 
+        console.log("rolls_remaining", this.rolls_remaining_element);
+        return this.dice_elements;
 
     }
 
@@ -83,6 +96,7 @@ class Dice{
      * <br> Uses this.#setDice to update dice
     */
     reset(){
+        
 
     }
 
