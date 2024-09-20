@@ -35,8 +35,9 @@ class Dice{
     */
     get_values(){
         //let current_view; 
-        //num_array = [0, 1, 2, 3, 4, 5, 6];
-        
+        let num_array = [0, 1, 2, 3, 4, 5, 6];
+        let dice_photos =["blank", "one.svg", "two.svg", "three.svg", "four.svg", "five.svg", "six.svg"]
+
         for (let die in this.dice_elements.slice(Math.max(this.dice_elements.length - 5, 0))) {
             console.log(this.dice_elements[die].src);
         }
@@ -109,7 +110,9 @@ class Dice{
      * @param {Object} element the <img> element representing the die to reserve
     */
     reserve(die_element){
-
+        let die_element_list = die_element.classList; 
+        die_element_list.toggle("reserved");
+        console.log("reserved");
     }
 
     /**
