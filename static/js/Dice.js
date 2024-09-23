@@ -4,7 +4,7 @@ class Dice{
         this.rolls_remaining_element= rolls_remaining_element;
         this.dice_elements= dice_elements;
         this.roll_button = roll_button;
-        this.photo_names=["blank", "one", "two", "three", "four", "five", "six"]
+        this.photo_names=["blank", "one", "two", "three", "four", "five", "six"];
     }
 
     /**
@@ -34,7 +34,7 @@ class Dice{
      * @return {Array} an array of integers representing dice values of dice pictures
     */
     get_values(){
-        let dice_photos =["blank.svg", "one.svg", "two.svg", "three.svg", "four.svg", "five.svg", "six.svg"]
+        let dice_photos =["blank.svg", "one.svg", "two.svg", "three.svg", "four.svg", "five.svg", "six.svg"];
         let values_array = [];
         //let recent_die_array = [];
         for (let die in this.dice_elements.slice(Math.max(this.dice_elements.length - 5, 0))) {
@@ -49,9 +49,10 @@ class Dice{
         }
 
         //console.log(this.dice_elements);
+
         return values_array;
     }
-
+    
     /**
      * Calculates the sum of all dice_elements
      * <br> Returns 0 if the dice are blank
@@ -59,7 +60,10 @@ class Dice{
      * @return {Number} an integer represenitng the sum of all five dice
     */
     get_sum(){
+        let values_array = this.get_values();
 
+        console.log(values_array.reduce((partialSum, a) => partialSum + a, 0));
+        return values_array.reduce((partialSum, a) => partialSum + a, 0);
 
     }
 
@@ -70,7 +74,16 @@ class Dice{
      * @return {Array} an array of six integers representing counts of the six die faces
     */
     get_counts(){
+        let values_array = this.get_values(); 
+        let counts_array = [0,0,0,0,0,0];
 
+        for (let value of values_array) {
+            if (value != 0) {
+                counts_array[value - 1] += 1;
+            }
+        }
+
+        console.log(counts_array);
     }
 
     /**
