@@ -145,9 +145,9 @@ class Dice{
     */
     reserve(die_element){
         //console.log("die_element", die_element);
-        if (die_element.src.includes("blank") == false) {
+        /*if (die_element.src.includes("blank") == false) {
             die_element.classList.toggle("reserved");
-        }
+        }*/
         
         //let die_element_list = die_element.classList; 
         //die_element_list.toggle("reserved");
