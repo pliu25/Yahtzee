@@ -82,8 +82,9 @@ class Dice{
                 counts_array[value - 1] += 1;
             }
         }
-
         console.log(counts_array);
+        return counts_array;
+        
     }
 
     /**
