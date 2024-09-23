@@ -34,16 +34,22 @@ class Dice{
      * @return {Array} an array of integers representing dice values of dice pictures
     */
     get_values(){
-        //let current_view; 
-        let num_array = [0, 1, 2, 3, 4, 5, 6];
-        let dice_photos =["blank", "one.svg", "two.svg", "three.svg", "four.svg", "five.svg", "six.svg"]
-
+        let dice_photos =["blank.svg", "one.svg", "two.svg", "three.svg", "four.svg", "five.svg", "six.svg"]
+        let values_array = [];
+        //let recent_die_array = [];
         for (let die in this.dice_elements.slice(Math.max(this.dice_elements.length - 5, 0))) {
+            let die_img = this.dice_elements[die].src;
             console.log(this.dice_elements[die].src);
+
+            die_img = die_img.replace("http://127.0.0.1:8080/img/", "");
+            //console.log(die_img);
+
+            values_array.push(dice_photos.indexOf(die_img));
+            //console.log(values_array);
         }
 
         //console.log(this.dice_elements);
-        return this.dice_elements;
+        return values_array;
     }
 
     /**
