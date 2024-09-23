@@ -94,11 +94,11 @@ class Dice{
     */
     roll(){
         
-        //let dice_photos =["one.svg", "two.svg", "three.svg", "four.svg", "five.svg", "six.svg"]
+        let roll_dice_photos =["one.svg", "two.svg", "three.svg", "four.svg", "five.svg", "six.svg"]
         let dice_elements = [];
         for (let i = 0; i<5; i++){
             let die = document.getElementById("die_"+i);
-            die.src = "/img/" + String(this.dice_photos[(Math.floor(Math.random() * this.dice_photos.length))])
+            die.src = "/img/" + String(roll_dice_photos[(Math.floor(Math.random() * roll_dice_photos.length))])
             //die.addEventListener('dblclick', reserve_die_handler);
             dice_elements.push(die);
         }
