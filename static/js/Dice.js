@@ -167,7 +167,7 @@ class Dice{
         this.rolls_remaining_element.innerHTML = new_rolls_remaining; 
         
         for (let i=0; i<5; i++) {
-            if (new_dice_values[i] !== -1) {
+            if (new_dice_values[i] > -1) {
                 this.dice_elements[i].src = new_dice_values[i].src;
                 //console.log(this.dice_elements[i].src);
             }
