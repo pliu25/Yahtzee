@@ -37,7 +37,7 @@ class Dice{
         //let dice_photos =["blank.svg", "one.svg", "two.svg", "three.svg", "four.svg", "five.svg", "six.svg"];
         let values_array = [];
         //let recent_die_array = [];
-        for (let die in this.dice_elements.slice(Math.max(this.dice_elements.length - 5, 0))) {
+        for (let die in this.dice_elements/*.slice(Math.max(this.dice_elements.length - 5, 0))*/) {
             let die_img = this.dice_elements[die].src;
             console.log(this.dice_elements[die].src);
 
@@ -49,7 +49,7 @@ class Dice{
         }
 
         //console.log(this.dice_elements);
-
+        console.log("values_array", values_array);
         return values_array;
     }
     
@@ -169,7 +169,7 @@ class Dice{
         for (let i=0; i<5; i++) {
             if (new_dice_values[i] > -1) {
                 this.dice_elements[i].src = new_dice_values[i].src;
-                //console.log(this.dice_elements[i].src);
+                console.log(this.dice_elements[i].src);
             }
         }
     }
