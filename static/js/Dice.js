@@ -3,8 +3,8 @@ class Dice{
     constructor(dice_elements, rolls_remaining_element, roll_button){
         this.rolls_remaining_element= rolls_remaining_element;
         this.dice_elements= dice_elements;
-        this.roll_button = roll_button;
-        this.photo_names=["blank", "one", "two", "three", "four", "five", "six"];
+        this.roll_button= roll_button;
+        this.dice_photos= ["blank.svg", "one.svg", "two.svg", "three.svg", "four.svg", "five.svg", "six.svg"];
     }
 
     /**
@@ -34,7 +34,7 @@ class Dice{
      * @return {Array} an array of integers representing dice values of dice pictures
     */
     get_values(){
-        let dice_photos =["blank.svg", "one.svg", "two.svg", "three.svg", "four.svg", "five.svg", "six.svg"];
+        //let dice_photos =["blank.svg", "one.svg", "two.svg", "three.svg", "four.svg", "five.svg", "six.svg"];
         let values_array = [];
         //let recent_die_array = [];
         for (let die in this.dice_elements.slice(Math.max(this.dice_elements.length - 5, 0))) {
@@ -44,7 +44,7 @@ class Dice{
             die_img = die_img.replace("http://127.0.0.1:8080/img/", "");
             //console.log(die_img);
 
-            values_array.push(dice_photos.indexOf(die_img));
+            values_array.push(this.dice_photos.indexOf(die_img));
             //console.log(values_array);
         }
 
@@ -117,7 +117,11 @@ class Dice{
      * <br> Uses this.#setDice to update dice
     */
     reset(){
-        
+        let new_values = [0,0,0,0,0,0];
+        this.set(new_values, 3);
+        for (let dice of this.dice_elements) {
+            dice.classList.remove("reserved");
+        }        
 
     }
 
@@ -130,9 +134,14 @@ class Dice{
      * @param {Object} element the <img> element representing the die to reserve
     */
     reserve(die_element){
-        let die_element_list = die_element.classList; 
-        die_element_list.toggle("reserved");
-        console.log("reserved");
+        //console.log("die_element", die_element);
+        if (die_element.src.includes("blank") == false) {
+            die_element.classList.toggle("reserved");
+        }
+        
+        //let die_element_list = die_element.classList; 
+        //die_element_list.toggle("reserved");
+        //console.log("reserved");
     }
 
     /**
@@ -145,7 +154,14 @@ class Dice{
      *
     */
     set(new_dice_values, new_rolls_remaining){
+        this.rolls_remaining_element.innerText = new_rolls_remaining; 
 
+        for (let i=0; i<=5; i++) {
+            if (new_dice_values[i] !== -1) {
+                this.dice_elements[i].src = "/img/" + this.dice_photos[new_dice_values[i]];
+                //console.log(this.dice_elements[i].src);
+            }
+        }
     }
 }
 
