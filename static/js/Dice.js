@@ -94,15 +94,32 @@ class Dice{
     */
     roll(){
         
-        let roll_dice_photos =["one.svg", "two.svg", "three.svg", "four.svg", "five.svg", "six.svg"]
+        //let roll_dice_photos =["one.svg", "two.svg", "three.svg", "four.svg", "five.svg", "six.svg"]
         let dice_elements = [];
         for (let i = 0; i<5; i++){
-            let die = document.getElementById("die_"+i);
+            /*let die = document.getElementById("die_"+i);
             die.src = "/img/" + String(roll_dice_photos[(Math.floor(Math.random() * roll_dice_photos.length))])
             //die.addEventListener('dblclick', reserve_die_handler);
-            dice_elements.push(die);
+            dice_elements.push(die);*/
+            let die_element = Math.floor(Math.random() * (6) + 1);
+            dice_elements.push(die_element);
         }
-        
+
+        for (let i=0; i<this.dice_elements.length; i++) {
+            if (this.dice_elements[i].className.includes("reserved")) {
+                dice_elements[i] = -1;
+            }
+        }
+
+        /*let dice_src_array = [];
+        for (let dice of this.dice_elements) {
+            dice_src_array.push(dice.src);
+        }
+        for (let i=0; i<dice_src_array.length; i++) {
+            if (dice_src_array[i].includes("blank")) {
+                dice_elements[i] = -1;
+            }
+        }*/
         //this.set()
         //console.log("roll", dice_elements);
         /*this.rolls_remaining_element = Number(this.rolls_remaining_element.innerText) - 1; 
@@ -112,11 +129,11 @@ class Dice{
             console.log("this.dice_elements", dice.src);
         }*/
 
-       /* for (let i =0; i<5; i++) {
-            console.log("this.dice_elements", dice_elements[i].src);
-        }*/
+        for (let i =0; i<5; i++) {
+            console.log("this.dice_elements", this.dice_elements[i]);
+        }
 
-        //return dice_elements;
+        //console.log("dice_elements", dice_elements.src);
         this.set(dice_elements, ((Number(this.rolls_remaining_element.innerText)) -1));
 
     }
@@ -145,9 +162,12 @@ class Dice{
     */
     reserve(die_element){
         //console.log("die_element", die_element);
-        /*if (die_element.src.includes("blank") == false) {
+       if (die_element.src.includes("blank") == false) {
             die_element.classList.toggle("reserved");
-        }*/
+        } 
+
+
+    
         
         //let die_element_list = die_element.classList; 
         //die_element_list.toggle("reserved");
@@ -164,12 +184,13 @@ class Dice{
      *
     */
     set(new_dice_values, new_rolls_remaining){
-        this.rolls_remaining_element.innerHTML = new_rolls_remaining; 
+        this.rolls_remaining_element.innerText = new_rolls_remaining; 
         
         for (let i=0; i<5; i++) {
             if (new_dice_values[i] > -1) {
-                this.dice_elements[i].src = new_dice_values[i].src;
-                console.log(this.dice_elements[i].src);
+                //this.dice_elements[i].src = new_dice_values[i].src;
+                this.dice_elements[i].src = "/img/" + this.dice_photos[new_dice_values[i]];
+                //console.log(this.dice_elements[i].src);
             }
         }
     }
