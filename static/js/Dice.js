@@ -94,20 +94,30 @@ class Dice{
     */
     roll(){
         
-        let dice_photos =["one.svg", "two.svg", "three.svg", "four.svg", "five.svg", "six.svg"]
-
+        //let dice_photos =["one.svg", "two.svg", "three.svg", "four.svg", "five.svg", "six.svg"]
+        let dice_elements = [];
         for (let i = 0; i<5; i++){
             let die = document.getElementById("die_"+i);
-            die.src = "/img/" + String(dice_photos[(Math.floor(Math.random() * dice_photos.length))])
+            die.src = "/img/" + String(this.dice_photos[(Math.floor(Math.random() * this.dice_photos.length))])
             //die.addEventListener('dblclick', reserve_die_handler);
-            this.dice_elements.push(die);
+            dice_elements.push(die);
         }
         
         //this.set()
-        console.log("roll", this.dice_elements);
-        this.rolls_remaining_element = Number(this.rolls_remaining_element.innerText) - 1; 
+        //console.log("roll", dice_elements);
+        /*this.rolls_remaining_element = Number(this.rolls_remaining_element.innerText) - 1; 
         console.log("rolls_remaining", this.rolls_remaining_element);
-        return this.dice_elements;
+        console.log("rollll", this.rolls_remaining_element);*/
+        /*for (let dice of this.dice_elements) {
+            console.log("this.dice_elements", dice.src);
+        }*/
+
+       /* for (let i =0; i<5; i++) {
+            console.log("this.dice_elements", dice_elements[i].src);
+        }*/
+
+        //return dice_elements;
+        this.set(dice_elements, ((Number(this.rolls_remaining_element.innerText)) -1));
 
     }
 
@@ -154,11 +164,11 @@ class Dice{
      *
     */
     set(new_dice_values, new_rolls_remaining){
-        this.rolls_remaining_element.innerText = new_rolls_remaining; 
-
-        for (let i=0; i<=5; i++) {
+        this.rolls_remaining_element.innerHTML = new_rolls_remaining; 
+        
+        for (let i=0; i<5; i++) {
             if (new_dice_values[i] !== -1) {
-                this.dice_elements[i].src = "/img/" + this.dice_photos[new_dice_values[i]];
+                this.dice_elements[i].src = new_dice_values[i].src;
                 //console.log(this.dice_elements[i].src);
             }
         }
