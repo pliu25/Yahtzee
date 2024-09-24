@@ -5,3 +5,7 @@ body {
     color: #3d1b94; 
     background-color: #e6defa;
 }
+
+.reserved {
+    border: 10px solid red;
+}

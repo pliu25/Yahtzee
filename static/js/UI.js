@@ -41,6 +41,7 @@ let score_elements = Array.from(document.getElementsByClassName("score"));
 function reserve_die_handler(event){
     //console.log(event.target);
     //console.log(event);
+    dice.reserve(event.target);
     console.log("Trying to reserve "+event.target.id);
 }
 
