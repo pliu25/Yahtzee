@@ -4,6 +4,7 @@ class Gamecard{
         this.category_elements = category_elements;
         this.dice=myDice;
         this.score_elements=score_elements;
+        this.dice_photos= ["blank.svg", "one.svg", "two.svg", "three.svg", "four.svg", "five.svg", "six.svg"];
     }
 
     /**
@@ -27,7 +28,12 @@ class Gamecard{
      * @return {Boolean} a Boolean value indicating whether the score is valid for the category
     */
     is_valid_score(category, value){
-      
+        let score_valid = Boolean(0); 
+        category = classList("upper category");
+        console.log(category);
+        console.log("yay", this.dice.get_counts());
+
+        return score_valid;
     }
 
     /**
