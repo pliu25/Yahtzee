@@ -29,10 +29,18 @@ class Gamecard{
     */
     is_valid_score(category, value){
         let score_valid = Boolean(0); 
-        category = classList("upper category");
-        console.log(category);
-        console.log("yay", this.dice.get_counts());
-
+        upper_category_inputs = document.getElementsByClassName("upper category");
+        for (entry in upper_category_inputs) {
+            
+        }
+        if (category == "upper category") {
+            console.log("woohoo!");
+        } else {
+            console.log("nay");
+        }
+        console.log("category", category);
+        console.log("get_counts", this.dice.get_counts());
+        //if category * this.die.get_counts[index -1] == value return true, if not rteurn false 
         return score_valid;
     }
 
