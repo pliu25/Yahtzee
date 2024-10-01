@@ -37,6 +37,14 @@ class Gamecard{
             upper_categories.push(upper_category_class[i].id);
         }
         console.log("upper_categories", upper_categories);
+
+        console.log("category", category);
+        
+        if (upper_categories.includes(category)) {
+            console.log("yay");
+        } else {
+            console.log("nay");
+        }
         //upper_category_inputs = document.getElementsByClassName("upper category");
         //for (entry in upper_category_inputs) {
             //console.log("woohoo!"); 
