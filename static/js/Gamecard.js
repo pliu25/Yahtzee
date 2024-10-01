@@ -1,10 +1,12 @@
 class Gamecard{
     
-    constructor(category_elements, score_elements, myDice){
+    constructor(category_elements, score_elements, myDice, category, value){
         this.category_elements = category_elements;
         this.dice=myDice;
         this.score_elements=score_elements;
         this.dice_photos= ["blank.svg", "one.svg", "two.svg", "three.svg", "four.svg", "five.svg", "six.svg"];
+        this.category = category; 
+        this.value = value;
     }
 
     /**
@@ -29,6 +31,12 @@ class Gamecard{
     */
     is_valid_score(category, value){
         let score_valid = Boolean(0); 
+        let upper_category_class = document.getElementsByClassName("upper category");
+        let upper_categories = [];
+        for (let i=0; i < upper_category_class.length; i++) {
+            upper_categories.push(upper_category_class[i].id);
+        }
+        console.log("upper_categories", upper_categories);
         //upper_category_inputs = document.getElementsByClassName("upper category");
         //for (entry in upper_category_inputs) {
             //console.log("woohoo!"); 
@@ -41,6 +49,7 @@ class Gamecard{
         //console.log("category", category);
         //console.log("get_counts", this.dice.get_counts());
         //if category * this.die.get_counts[index -1] == value return true, if not rteurn false 
+       
         return score_valid;
     }
 
