@@ -165,9 +165,6 @@ class Dice{
        if (die_element.src.includes("blank") == false) {
             die_element.classList.toggle("reserved");
         } 
-
-
-    
         
         //let die_element_list = die_element.classList; 
         //die_element_list.toggle("reserved");
