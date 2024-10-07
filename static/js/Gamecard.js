@@ -43,7 +43,7 @@ class Gamecard{
         if (upper_categories.includes(category)) {
             if (value == ((this.dice.get_counts()[upper_categories.indexOf(category)]) * ((upper_categories.indexOf(category)) + 1))) {
                 score_valid = Boolean(1);
-            } else if (value == 0) {
+            } else if (value === 0) {
                 score_valid = Boolean(1);
             } else {
                 score_valid = Boolean(0);
@@ -55,7 +55,16 @@ class Gamecard{
             console.log("this.dice.get_counts()", this.dice.get_counts())*/
         } else {
             if (category == "three_of_a_kind_input") {
-                
+                if (this.dice.get_counts().some((num) => num >= 3)) {
+                    /*if (value == this.dice.get_counts().indexOf(num)) {
+
+                    }*/
+                   console.log("this.dice.get_counts().indexOf(num)", this.dice.get_counts().indexOf(num));
+                } else if (value === 0) {
+                    score_valid = Boolean(1);
+                } else {
+                    score_valid = Boolean(0);
+                }
             } else if (category == "four_of_a_kind_input") {
                 
             } else if (category == "full_house_input") {
