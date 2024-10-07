@@ -41,7 +41,7 @@ class Gamecard{
         console.log("category", category);
         
         if (upper_categories.includes(category)) {
-            if (value == ((this.dice.get_counts()[upper_categories.indexOf(category)]) * (this.dice.get_counts().indexOf(upper_categories.indexOf(category)) + 1))) {
+            if (value == ((this.dice.get_counts()[upper_categories.indexOf(category)]) * ((upper_categories.indexOf(category)) + 1))) {
                 score_valid = Boolean(1);
             } else if (value == 0) {
                 score_valid = Boolean(1);
@@ -49,10 +49,10 @@ class Gamecard{
                 score_valid = Boolean(0);
             }
             console.log("get_counts", this.dice.get_counts()[upper_categories.indexOf(category)]);
-            console.log("check", ((this.dice.get_counts()[upper_categories.indexOf(category)]) * (this.dice.get_counts().indexOf(upper_categories.indexOf(category)) + 1)));
-            console.log("check2", this.dice.get_counts().indexOf(upper_categories.indexOf(category)) + 1)
-            console.log("upper_categories.indexOf(category)", upper_categories.indexOf(category));
-            //console.log("this.dice.get_counts()", this.dice.get_counts())
+            console.log("final_check", ((this.dice.get_counts()[upper_categories.indexOf(category)]) * ((upper_categories.indexOf(category)) + 1)));
+            console.log("(upper_categories.indexOf(category)) + 1)", ((upper_categories.indexOf(category)) + 1));
+            /*console.log("upper_categories.indexOf(category)", upper_categories.indexOf(category));
+            console.log("this.dice.get_counts()", this.dice.get_counts())*/
         } else {
             if (category == "three_of_a_kind_input") {
 
