@@ -55,9 +55,19 @@ class Gamecard{
             console.log("this.dice.get_counts()", this.dice.get_counts())*/
         } else {
             if (category == "three_of_a_kind_input") {
-
+                
             } else if (category == "four_of_a_kind_input") {
                 
+            } else if (category == "full_house_input") {
+
+            } else if (category == "small_straight_input") {
+
+            } else if (category == "large_straight_input") {
+
+            } else if (category == "yahtzee_input") {
+
+            } else if (category == "chance_input") {
+
             }
         }
         //upper_category_inputs = document.getElementsByClassName("upper category");
