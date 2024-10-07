@@ -43,14 +43,16 @@ class Gamecard{
         if (upper_categories.includes(category)) {
             if (value == ((this.dice.get_counts()[upper_categories.indexOf(category)]) * (this.dice.get_counts().indexOf(upper_categories.indexOf(category)) + 1))) {
                 score_valid = Boolean(1);
+            } else if (value == 0) {
+                score_valid = Boolean(1);
             } else {
                 score_valid = Boolean(0);
             }
             console.log("get_counts", this.dice.get_counts()[upper_categories.indexOf(category)]);
             console.log("check", ((this.dice.get_counts()[upper_categories.indexOf(category)]) * (this.dice.get_counts().indexOf(upper_categories.indexOf(category)) + 1)));
             console.log("check2", this.dice.get_counts().indexOf(upper_categories.indexOf(category)) + 1)
-            /*console.log("upper_categories.indexOf(category)", upper_categories.indexOf(category));
-            console.log("this.dice.get_counts()", this.dice.get_counts())*/
+            console.log("upper_categories.indexOf(category)", upper_categories.indexOf(category));
+            //console.log("this.dice.get_counts()", this.dice.get_counts())
         } else {
             if (category == "three_of_a_kind_input") {
 
@@ -116,7 +118,7 @@ class Gamecard{
      * @param {Object} gameObject the object version of the scorecard
     */
     load_scorecard(score_info){
-       
+       //can use load_scorecard + to_object to test MS3, create partial games that are practically all filled out
     }
 
     /**

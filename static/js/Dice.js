@@ -22,7 +22,7 @@ class Dice{
             }
         }*/
        let count = Number(this.rolls_remaining_element.innerText);
-       console.log(count);
+       //console.log(count);
        return count;
     }
 
@@ -39,7 +39,7 @@ class Dice{
         //let recent_die_array = [];
         for (let die in this.dice_elements/*.slice(Math.max(this.dice_elements.length - 5, 0))*/) {
             let die_img = this.dice_elements[die].src;
-            console.log(this.dice_elements[die].src);
+            //console.log(this.dice_elements[die].src);
 
             die_img = die_img.replace("http://127.0.0.1:8080/img/", "");
             //console.log(die_img);
@@ -49,7 +49,7 @@ class Dice{
         }
 
         //console.log(this.dice_elements);
-        console.log("values_array", values_array);
+        //console.log("values_array", values_array);
         return values_array;
     }
     
@@ -62,7 +62,7 @@ class Dice{
     get_sum(){
         let values_array = this.get_values();
 
-        console.log(values_array.reduce((partialSum, a) => partialSum + a, 0));
+        //console.log(values_array.reduce((partialSum, a) => partialSum + a, 0));
         return values_array.reduce((partialSum, a) => partialSum + a, 0);
 
     }
@@ -82,7 +82,7 @@ class Dice{
                 counts_array[value - 1] += 1;
             }
         }
-        console.log(counts_array);
+        //console.log(counts_array);
         return counts_array;
         
     }
@@ -129,9 +129,9 @@ class Dice{
             console.log("this.dice_elements", dice.src);
         }*/
 
-        for (let i =0; i<5; i++) {
+        /*for (let i =0; i<5; i++) {
             console.log("this.dice_elements", this.dice_elements[i]);
-        }
+        }*/
 
         //console.log("dice_elements", dice_elements.src);
         this.set(dice_elements, ((Number(this.rolls_remaining_element.innerText)) -1));
