@@ -56,10 +56,19 @@ class Gamecard{
         } else {
             if (category == "three_of_a_kind_input") {
                 if (this.dice.get_counts().some((num) => num >= 3)) {
-                    /*if (value == this.dice.get_counts().indexOf(num)) {
-
-                    }*/
-                   console.log("this.dice.get_counts().indexOf(num)", this.dice.get_counts().indexOf(num));
+                    let rev_get_counts = []
+                    for (let num of this.dice.get_counts()) {
+                        if (num >= 3) {
+                            rev_get_counts = [this.dice.get_counts().indexOf(num), num];
+                        }
+                    }
+                    console.log("rev_get_counts", rev_get_counts);
+                    console.log("this.dice.get_counts()", this.dice.get_counts());
+                    
+                    if (value === (((rev_get_counts[0])+1)*rev_get_counts[1])) {
+                        score_valid = Boolean(1);
+                    } 
+                    //console.log("this.dice.get_counts().indexOf(num)", this.dice.get_counts().indexOf(num));
                 } else if (value === 0) {
                     score_valid = Boolean(1);
                 } else {
@@ -138,6 +147,8 @@ class Gamecard{
     */
     load_scorecard(score_info){
        //can use load_scorecard + to_object to test MS3, create partial games that are practically all filled out
+       //goes through the objects and then puts in all scores, then disables it
+       //only if score in it
     }
 
     /**
@@ -156,7 +167,7 @@ class Gamecard{
                 "three_of_a_kind":-1,
                 "four_of_a_kind":-1,
                 "full_house":-1,
-                "small_straight":-1,
+                "small_straight":-1, 
                 "large_straight":-1,
                 "yahtzee":-1,
                 "chance":-1
