@@ -116,7 +116,7 @@ class Gamecard{
                         score_valid = Boolean(0);
                     }
                 }
-            } else if (category == "small_straight_input") {
+            } else if (category == "small_straight_input") { //fix: ex. 2, 3, 4, 5, 5
                 let sorted_counts = this.dice.get_counts().sort(); 
                 if (sorted_counts.includes("1, 1, 1, 1")) {
                     let sum = 0;
