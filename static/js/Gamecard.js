@@ -40,12 +40,20 @@ class Gamecard{
 
         console.log("category", category);
         
+        if (this.dice.get_sum() == 0) {
+            score_valid = Boolean(0);
+        }
+
+        if (value.toString() === "0") {
+            console.log("zero");
+            score_valid = Boolean(1);
+        }
+        
+        //upper categories
         if (upper_categories.includes(category)) {
             if (value == ((this.dice.get_counts()[upper_categories.indexOf(category)]) * ((upper_categories.indexOf(category)) + 1))) {
                 score_valid = Boolean(1);
-            } else if (value === 0) {
-                score_valid = Boolean(1);
-            } else {
+            } else if (value.toString() != "0") {
                 score_valid = Boolean(0);
             }
             console.log("get_counts", this.dice.get_counts()[upper_categories.indexOf(category)]);
@@ -53,7 +61,7 @@ class Gamecard{
             console.log("(upper_categories.indexOf(category)) + 1)", ((upper_categories.indexOf(category)) + 1));
             /*console.log("upper_categories.indexOf(category)", upper_categories.indexOf(category));
             console.log("this.dice.get_counts()", this.dice.get_counts())*/
-        } else {
+        } else { //lower categories
             if (category == "three_of_a_kind_input") {
                 if (this.dice.get_counts().some((num) => num >= 3)) {
                     let rev_get_counts = []
@@ -62,30 +70,100 @@ class Gamecard{
                             rev_get_counts = [this.dice.get_counts().indexOf(num), num];
                         }
                     }
-                    console.log("rev_get_counts", rev_get_counts);
-                    console.log("this.dice.get_counts()", this.dice.get_counts());
+                    //console.log("rev_get_counts", rev_get_counts);
+                    //console.log("this.dice.get_counts()", this.dice.get_counts());
                     
-                    if (value === (((rev_get_counts[0])+1)*rev_get_counts[1])) {
+                    if (value == (((rev_get_counts[0])+1)*3)) {
                         score_valid = Boolean(1);
-                    } 
+                        console.log("yay");
+                    } else if (value.toString() != "0") {
+                        score_valid = Boolean(0);
+                        console.log("nay");
+                    }
+                    console.log("(rev_get_counts[0])+1", (rev_get_counts[0])+1);
                     //console.log("this.dice.get_counts().indexOf(num)", this.dice.get_counts().indexOf(num));
-                } else if (value === 0) {
-                    score_valid = Boolean(1);
-                } else {
+                } else if (value.toString() != "0") {
                     score_valid = Boolean(0);
                 }
             } else if (category == "four_of_a_kind_input") {
-                
+                if (this.dice.get_counts().some((num) => num >= 4)) {
+                    let rev_get_counts = []
+                    for (let num of this.dice.get_counts()) {
+                        if (num >= 4) {
+                            rev_get_counts = [this.dice.get_counts().indexOf(num), num];
+                        }
+                    }
+                    //console.log("rev_get_counts", rev_get_counts);
+                    //console.log("this.dice.get_counts()", this.dice.get_counts());
+                    
+                    if (value == (((rev_get_counts[0])+1)*4)) {
+                        score_valid = Boolean(1);
+                        console.log("yay");
+                    } else if (value.toString() != "0") {
+                        score_valid = Boolean(0);
+                        console.log("nay");
+                    }
+                    //console.log("(rev_get_counts[0])+1", (rev_get_counts[0])+1);
+                    //console.log("this.dice.get_counts().indexOf(num)", this.dice.get_counts().indexOf(num));
+                } else if (value.toString() != "0") {
+                    score_valid = Boolean(0);
+                }
             } else if (category == "full_house_input") {
-
+                if ((this.dice.get_counts().includes(3)) && (this.dice.get_counts().includes(2))) {
+                    if (value == 25) {
+                        score_valid = Boolean(1);
+                    } else {
+                        score_valid = Boolean(0);
+                    }
+                }
             } else if (category == "small_straight_input") {
+                sorted_counts = this.dice.get_counts().sort(); 
+                if (this.dice.get_counts().includes("1, 1, 1, 1")) {
+                    let sum = 0;
+                    for (num in this.dice.get_counts()) {
+                        if (num == 1) {
+                            sum += (this.dice.get_counts().indexOf(num) + 1);
+                        }
+                    }
 
+                    if (value == sum){
+                        score_valid = Boolean(1); 
+                    } else if (value.toString() != "0") {
+                        score_valid = Boolean(0);
+                    }
+                } else if (value.toString() != "0") {
+                    score_valid = Boolean(0);
+                }
             } else if (category == "large_straight_input") {
-
+                if (this.dice.get_counts().includes("1, 1, 1, 1, 1")) {
+                    if (value == this.dice.get_sum()) {
+                        score_valid = Boolean(1); 
+                    } else if (value.toString() != "0") {
+                        score_valid = Boolean(0);
+                    }
+                } else if (value.toString() != "0") {
+                    score_valid = Boolean(0);
+                }
             } else if (category == "yahtzee_input") {
-
+                if (this.dice.get_counts().includes(5)) {
+                    if (value == 50) {
+                        score_valid = Boolean(1);
+                    } else {
+                        score_valid = Boolean(0);
+                    }
+                } else if (value.toString() != "0") {
+                    score_valid = Boolean(0);
+                }
             } else if (category == "chance_input") {
-
+                /*let sum = this.dice.values().reduce(function(acc, el) {
+                    return acc + el; 
+                }, 0);
+                console.log("sum", sum);*/
+                if (value == this.dice.get_sum()) {
+                    score_valid = Boolean(1);
+                } else if (value.toString() != "0") {
+                    score_valid = Boolean(0);
+                }
             }
         }
         //upper_category_inputs = document.getElementsByClassName("upper category");
