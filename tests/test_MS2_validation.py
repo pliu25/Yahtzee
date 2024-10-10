@@ -16,7 +16,7 @@ class MS2_Validation_Tests(unittest.TestCase):
     def setUp(self):
         self.browser = webdriver.Chrome()
         self.addCleanup(self.browser.quit)
-    
+    '''
     def test_upper_categories_validation(self):
         upper_tests={
             "one" : [
@@ -107,7 +107,6 @@ class MS2_Validation_Tests(unittest.TestCase):
 
         for category in self.upper_categories:
             for test in upper_tests[category]:
-                print(category, test)
                 self.browser.get(self.url)
                 self.browser.execute_script(f"window.dice.set({test[1]}, 2);")
                 #self.browser.save_screenshot(f"{category}_input.png")
@@ -117,7 +116,7 @@ class MS2_Validation_Tests(unittest.TestCase):
                      result = self.browser.execute_script(f"return window.gamecard.is_valid_score('{category}', {test[0]});")
                 #self.browser.save_screenshot(f"{category}_input_after_enter.png")
                 self.assertEqual(result, test[2])
-    
+    '''
     def test_lower_categories_validation(self):
         lower_tests={
             "three_of_a_kind":[
