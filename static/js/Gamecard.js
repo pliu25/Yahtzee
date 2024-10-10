@@ -238,20 +238,11 @@ class Gamecard{
     * @return {Number} an integer value representing the curent game score
     */
     get_score(){
-        let grand_total = this.update_scores().upper_sum + this.update_scores().lower_sum + this.update_scores().bonus;
-        console.log(grand_total);
-        return grand_total; 
-    }
-
-    /**
-     * Updates all score elements for a scorecard
-    */
-    update_scores(){
         let upper_sum = 0;
         let lower_sum = 0; 
         let bonus = 0; 
 
-        for (let category of category_elements) {
+        for (let category of this.category_elements) {
             if (category.hasAttribute("disabled")) {
                 if (category.className == "upper category") {
                     upper_sum += Number(category.value);
@@ -266,7 +257,36 @@ class Gamecard{
             bonus = 35; 
             document.getElementById("upper_score").innerText = upper_sum;
         } 
-        
+        console.log("upper_sum, lower_sum, bonus", upper_sum, lower_sum, bonus);
+
+        let grand_total = upper_sum + lower_sum + bonus; 
+        return grand_total;
+    }
+
+    /**
+     * Updates all score elements for a scorecard
+    */
+    update_scores(){
+        let upper_sum = 0;
+        let lower_sum = 0; 
+        let bonus = 0; 
+
+        for (let category of this.category_elements) {
+            if (category.hasAttribute("disabled")) {
+                if (category.className == "upper category") {
+                    upper_sum += Number(category.value);
+                } else if (category.className == "lower category") {
+                    lower_sum += Number(category.value);
+                }
+            }
+        }
+
+        let total_sum = upper_sum + lower_sum; 
+        if (total_sum > 63) {
+            bonus = 35; 
+            document.getElementById("upper_score").innerText = upper_sum;
+        } 
+        console.log("upper_sum, lower_sum, bonus", upper_sum, lower_sum, bonus);
         return upper_sum, lower_sum, bonus; 
     }
 
