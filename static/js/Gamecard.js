@@ -120,6 +120,7 @@ class Gamecard{
                 let sorted_counts = this.dice.get_counts().sort(); 
                 if ((sorted_counts.includes("1, 1, 1, 1")) || (sorted_counts.includes("1, 1, 1, 2") && this.dice.get_counts()[1] != 0 && this.dice.get_counts()[2] != 0 && this.dice.get_counts()[3] != 0)) {
                     let sum = 0;
+
                     for (num in this.dice.get_counts()) {
                         if (num == 1 || num == 2) {
                             sum += ((this.dice.get_counts().indexOf(num)) + 1);
@@ -130,8 +131,10 @@ class Gamecard{
 
                     if (value == sum){
                         score_valid = Boolean(1); 
+                        console.log("sum", sum);
                     } else if (value.toString() != "0") {
                         score_valid = Boolean(0);
+                        console.log("sum", sum);
                     }
                 } else if (value.toString() != "0") {
                     score_valid = Boolean(0);
