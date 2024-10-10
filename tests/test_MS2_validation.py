@@ -107,6 +107,7 @@ class MS2_Validation_Tests(unittest.TestCase):
 
         for category in self.upper_categories:
             for test in upper_tests[category]:
+                print(category, test)
                 self.browser.get(self.url)
                 self.browser.execute_script(f"window.dice.set({test[1]}, 2);")
                 #self.browser.save_screenshot(f"{category}_input.png")
@@ -252,6 +253,7 @@ class MS2_Validation_Tests(unittest.TestCase):
         }
         for category in self.lower_categories:
             for test in lower_tests[category]:
+                print(category, test)
                 self.browser.get(self.url)
                 self.browser.execute_script(f"window.dice.set({test[1]}, 2);")
                 #self.browser.save_screenshot(f"{category}_input.png")
@@ -261,6 +263,6 @@ class MS2_Validation_Tests(unittest.TestCase):
                      result = self.browser.execute_script(f"return window.gamecard.is_valid_score('{category}', {test[0]});")
                 #self.browser.save_screenshot(f"{category}_input_after_enter.png")
                 self.assertEqual(result, test[2])
-
+    
 if __name__ == '__main__':
     unittest.main()

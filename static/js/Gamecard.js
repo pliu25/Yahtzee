@@ -35,7 +35,7 @@ class Gamecard{
      * @return {Boolean} a Boolean value indicating whether the score is valid for the category
     */
     is_valid_score(category, value){
-        let disable_attribute = document.getElementById(category);
+        let disable_attribute = document.getElementById(category + "_input");
         let score_valid = Boolean(0); 
         let upper_category_class = document.getElementsByClassName("upper category");
         let upper_categories = [];
@@ -44,24 +44,25 @@ class Gamecard{
         }
         console.log("upper_categories", upper_categories);
 
-        console.log("category", category);
+        console.log("category", category + "_input");
         
-        if (this.dice.get_sum() == 0) {
-            score_valid = Boolean(0);
+        if (this.dice.get_sum() == 0 || Number.isInteger(value) == false) {
+            return false;
         }
 
         if (value.toString() === "0") {
             //console.log("zero");
-            score_valid = Boolean(1);
-            disable_attribute.setAttribute("disabled", "");
+            disable_attribute.disabled=true;
+            return true;
         }
         
+        let rev_category = category + "_input"
         //upper categories
-        if (upper_categories.includes(category)) {
-            if (value == ((this.dice.get_counts()[upper_categories.indexOf(category)]) * ((upper_categories.indexOf(category)) + 1))) {
+        if (upper_categories.includes(rev_category)) {
+            if (value == ((this.dice.get_counts()[upper_categories.indexOf(rev_category)]) * ((upper_categories.indexOf(rev_category)) + 1))) {
                 score_valid = Boolean(1);
-                disable_attribute.setAttribute("disabled", "");
-            } else if (value.toString() != "0") {
+                disable_attribute.disabled=true;
+            } else {
                 score_valid = Boolean(0);
             }
             console.log("get_counts", this.dice.get_counts()[upper_categories.indexOf(category)]);
@@ -70,7 +71,7 @@ class Gamecard{
             /*console.log("upper_categories.indexOf(category)", upper_categories.indexOf(category));
             console.log("this.dice.get_counts()", this.dice.get_counts())*/
         } else { //lower categories
-            if (category == "three_of_a_kind_input") {
+            if (category == "three_of_a_kind") {
                 if (this.dice.get_counts().some((num) => num >= 3)) {
                     let rev_get_counts = []
                     for (let num of this.dice.get_counts()) {
@@ -94,7 +95,7 @@ class Gamecard{
                 } else if (value.toString() != "0") {
                     score_valid = Boolean(0);
                 }
-            } else if (category == "four_of_a_kind_input") {
+            } else if (category == "four_of_a_kind") {
                 if (this.dice.get_counts().some((num) => num >= 4)) {
                     let rev_get_counts = []
                     for (let num of this.dice.get_counts()) {
@@ -107,7 +108,7 @@ class Gamecard{
                     
                     if (value == (((rev_get_counts[0])+1)*4)) {
                         score_valid = Boolean(1);
-                        disable_attribute.setAttribute("disabled", "");
+                        disable_attribute.disabled=true;
                         console.log("yay");
                     } else if (value.toString() != "0") {
                         score_valid = Boolean(0);
@@ -118,16 +119,16 @@ class Gamecard{
                 } else if (value.toString() != "0") {
                     score_valid = Boolean(0);
                 }
-            } else if (category == "full_house_input") {
+            } else if (category == "full_house") {
                 if ((this.dice.get_counts().includes(3)) && (this.dice.get_counts().includes(2))) {
                     if (value == 25) {
                         score_valid = Boolean(1);
-                        disable_attribute.setAttribute("disabled", "");
+                        disable_attribute.disabled=true;
                     } else {
                         score_valid = Boolean(0);
                     }
                 }
-            } else if (category == "small_straight_input") { 
+            } else if (category == "small_straight") { 
                 //let sorted_counts = this.dice.get_counts().sort(); 
                 //if ((sorted_counts.includes("1, 1, 1, 1")) || (sorted_counts.includes("1, 1, 1, 2"))) {
             
@@ -176,41 +177,41 @@ class Gamecard{
                 if (if_valid.includes("valid")) {
                     if (value == 30) {
                         score_valid = Boolean(1);
-                        disable_attribute.setAttribute("disabled", "");
+                        disable_attribute.disabled=true;
                     } else if (value.toString() != "0") {
                         score_valid = Boolean(0);
                     }
                 }
-            } else if (category == "large_straight_input") {
+            } else if (category == "large_straight") {
                 if (this.dice.get_counts().includes("1, 1, 1, 1, 1")) {
                     if (value == 40) {
                         score_valid = Boolean(1);
-                        disable_attribute.setAttribute("disabled", ""); 
+                        disable_attribute.disabled=true;
                     } else if (value.toString() != "0") {
                         score_valid = Boolean(0);
                     }
                 } else if (value.toString() != "0") {
                     score_valid = Boolean(0);
                 }
-            } else if (category == "yahtzee_input") {
+            } else if (category == "yahtzee") {
                 if (this.dice.get_counts().includes(5)) {
                     if (value == 50) {
                         score_valid = Boolean(1);
-                        disable_attribute.setAttribute("disabled", "");
+                        disable_attribute.disabled=true;
                     } else {
                         score_valid = Boolean(0);
                     }
                 } else if (value.toString() != "0") {
                     score_valid = Boolean(0);
                 }
-            } else if (category == "chance_input") {
+            } else if (category == "chance") {
                 /*let sum = this.dice.values().reduce(function(acc, el) {
                     return acc + el; 
                 }, 0);
                 console.log("sum", sum);*/
                 if (value == this.dice.get_sum()) {
                     score_valid = Boolean(1);
-                    disable_attribute.setAttribute("disabled", "");
+                    disable_attribute.disabled=true;
                 } else if (value.toString() != "0") {
                     score_valid = Boolean(0);
                 }
@@ -319,6 +320,8 @@ class Gamecard{
        //can use load_scorecard + to_object to test MS3, create partial games that are practically all filled out
        //goes through the objects and then puts in all scores, then disables it
        //only if score in it
+
+
     }
 
     /**
@@ -348,6 +351,7 @@ class Gamecard{
      *
      */
     to_object(){
+
       
     }
 }
