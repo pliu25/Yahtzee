@@ -16,7 +16,12 @@ class Gamecard{
      * @return {Boolean} a Boolean value indicating whether the scorecard is full
      */
     is_finished(){
-
+        for (let category of this.category_elements) {
+            if (category.disabled == false) {
+                return false; 
+            }
+        }
+        return true; 
     }
 
     /**
@@ -30,6 +35,7 @@ class Gamecard{
      * @return {Boolean} a Boolean value indicating whether the score is valid for the category
     */
     is_valid_score(category, value){
+        let disable_attribute = document.getElementById(category);
         let score_valid = Boolean(0); 
         let upper_category_class = document.getElementsByClassName("upper category");
         let upper_categories = [];
@@ -45,14 +51,16 @@ class Gamecard{
         }
 
         if (value.toString() === "0") {
-            console.log("zero");
+            //console.log("zero");
             score_valid = Boolean(1);
+            disable_attribute.setAttribute("disabled", "");
         }
         
         //upper categories
         if (upper_categories.includes(category)) {
             if (value == ((this.dice.get_counts()[upper_categories.indexOf(category)]) * ((upper_categories.indexOf(category)) + 1))) {
                 score_valid = Boolean(1);
+                disable_attribute.setAttribute("disabled", "");
             } else if (value.toString() != "0") {
                 score_valid = Boolean(0);
             }
@@ -75,6 +83,7 @@ class Gamecard{
                     
                     if (value == (((rev_get_counts[0])+1)*3)) {
                         score_valid = Boolean(1);
+                        disable_attribute.setAttribute("disabled", "");
                         console.log("yay");
                     } else if (value.toString() != "0") {
                         score_valid = Boolean(0);
@@ -98,6 +107,7 @@ class Gamecard{
                     
                     if (value == (((rev_get_counts[0])+1)*4)) {
                         score_valid = Boolean(1);
+                        disable_attribute.setAttribute("disabled", "");
                         console.log("yay");
                     } else if (value.toString() != "0") {
                         score_valid = Boolean(0);
@@ -112,15 +122,16 @@ class Gamecard{
                 if ((this.dice.get_counts().includes(3)) && (this.dice.get_counts().includes(2))) {
                     if (value == 25) {
                         score_valid = Boolean(1);
+                        disable_attribute.setAttribute("disabled", "");
                     } else {
                         score_valid = Boolean(0);
                     }
                 }
-            } else if (category == "small_straight_input") { //fix: ex. 2, 3, 4, 5, 5
-                let sorted_counts = this.dice.get_counts().sort(); 
-                if ((sorted_counts.includes("1, 1, 1, 1")) || (sorted_counts.includes("1, 1, 1, 2") && this.dice.get_counts()[1] != 0 && this.dice.get_counts()[2] != 0 && this.dice.get_counts()[3] != 0)) {
+            } else if (category == "small_straight_input") { 
+                //let sorted_counts = this.dice.get_counts().sort(); 
+                //if ((sorted_counts.includes("1, 1, 1, 1")) || (sorted_counts.includes("1, 1, 1, 2"))) {
             
-                    modified_get_counts = Array.from(this.dice.get_counts());
+                    /*modified_get_counts = Array.from(this.dice.get_counts());
                     for (let i = 0; i < modified_get_counts.length; i++) {
                         if (modified_get_counts[i] == 2) {
                             modified_get_counts[i] = 1;
@@ -142,14 +153,39 @@ class Gamecard{
                     } else if (value.toString() != "0") {
                         score_valid = Boolean(0);
                         console.log("sum", sum);
+                    }*/
+                let short_get_counts1 = this.dice.get_counts().slice(0,4);
+                let short_get_counts2 = this.dice.get_counts().slice(1,5);
+                let short_get_counts3 = this.dice.get_counts().slice(2,6);
+                console.log(short_get_counts1, short_get_counts2, short_get_counts3);
+                let shortened_get_counts = [short_get_counts1, short_get_counts2, short_get_counts3];
+                let if_valid = new Array();
+
+                for (let short_count of shortened_get_counts) {
+                    if (short_count.includes(0)) {
+                        if_valid.push("no");
+                        //console.log("short_count_no", short_count);
+                    } else {
+                        if_valid.push("valid");
+                        //console.log("short_count_valid", short_count);
                     }
-                } else if (value.toString() != "0") {
-                    score_valid = Boolean(0);
+                }
+
+                console.log("if_valid", if_valid);
+
+                if (if_valid.includes("valid")) {
+                    if (value == 30) {
+                        score_valid = Boolean(1);
+                        disable_attribute.setAttribute("disabled", "");
+                    } else if (value.toString() != "0") {
+                        score_valid = Boolean(0);
+                    }
                 }
             } else if (category == "large_straight_input") {
                 if (this.dice.get_counts().includes("1, 1, 1, 1, 1")) {
-                    if (value == this.dice.get_sum()) {
-                        score_valid = Boolean(1); 
+                    if (value == 40) {
+                        score_valid = Boolean(1);
+                        disable_attribute.setAttribute("disabled", ""); 
                     } else if (value.toString() != "0") {
                         score_valid = Boolean(0);
                     }
@@ -160,6 +196,7 @@ class Gamecard{
                 if (this.dice.get_counts().includes(5)) {
                     if (value == 50) {
                         score_valid = Boolean(1);
+                        disable_attribute.setAttribute("disabled", "");
                     } else {
                         score_valid = Boolean(0);
                     }
@@ -173,6 +210,7 @@ class Gamecard{
                 console.log("sum", sum);*/
                 if (value == this.dice.get_sum()) {
                     score_valid = Boolean(1);
+                    disable_attribute.setAttribute("disabled", "");
                 } else if (value.toString() != "0") {
                     score_valid = Boolean(0);
                 }
@@ -200,14 +238,36 @@ class Gamecard{
     * @return {Number} an integer value representing the curent game score
     */
     get_score(){
-
+        let grand_total = this.update_scores().upper_sum + this.update_scores().lower_sum + this.update_scores().bonus;
+        console.log(grand_total);
+        return grand_total; 
     }
 
     /**
      * Updates all score elements for a scorecard
     */
     update_scores(){
-       
+        let upper_sum = 0;
+        let lower_sum = 0; 
+        let bonus = 0; 
+
+        for (let category of category_elements) {
+            if (category.hasAttribute("disabled")) {
+                if (category.className == "upper category") {
+                    upper_sum += Number(category.value);
+                } else if (category.className == "lower category") {
+                    lower_sum += Number(category.value);
+                }
+            }
+        }
+
+        let total_sum = upper_sum + lower_sum; 
+        if (total_sum > 63) {
+            bonus = 35; 
+            document.getElementById("upper_score").innerText = upper_sum;
+        } 
+        
+        return upper_sum, lower_sum, bonus; 
     }
 
     /**
