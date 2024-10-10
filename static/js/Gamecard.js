@@ -118,11 +118,13 @@ class Gamecard{
                 }
             } else if (category == "small_straight_input") { //fix: ex. 2, 3, 4, 5, 5
                 let sorted_counts = this.dice.get_counts().sort(); 
-                if (sorted_counts.includes("1, 1, 1, 1")) {
+                if (sorted_counts.includes("1, 1, 1, 1") || sorted_counts.includes("1, 1, 1, 2")) {
                     let sum = 0;
                     for (num in this.dice.get_counts()) {
-                        if (num == 1) {
-                            sum += (this.dice.get_counts().indexOf(num) + 1);
+                        if (num == 1 || num == 2) {
+                            sum += ((this.dice.get_counts().indexOf(num)) + 1);
+                        } else {
+                            sum += 0
                         }
                     }
 
