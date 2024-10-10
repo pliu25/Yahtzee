@@ -82,15 +82,15 @@ class Gamecard{
                     //console.log("rev_get_counts", rev_get_counts);
                     //console.log("this.dice.get_counts()", this.dice.get_counts());
                     
-                    if (value == (((rev_get_counts[0])+1)*3)) {
+                    if (value == this.dice.get_sum()) {
                         score_valid = Boolean(1);
                         disable_attribute.setAttribute("disabled", "");
                         console.log("yay");
-                    } else if (value.toString() != "0") {
+                    } else {
                         score_valid = Boolean(0);
                         console.log("nay");
                     }
-                    console.log("(rev_get_counts[0])+1", (rev_get_counts[0])+1);
+                    //console.log("(rev_get_counts[0])+1", (rev_get_counts[0])+1);
                     //console.log("this.dice.get_counts().indexOf(num)", this.dice.get_counts().indexOf(num));
                 } else if (value.toString() != "0") {
                     score_valid = Boolean(0);
@@ -106,7 +106,7 @@ class Gamecard{
                     //console.log("rev_get_counts", rev_get_counts);
                     //console.log("this.dice.get_counts()", this.dice.get_counts());
                     
-                    if (value == (((rev_get_counts[0])+1)*4)) {
+                    if (value == this.dice.get_sum()) {
                         score_valid = Boolean(1);
                         disable_attribute.disabled=true;
                         console.log("yay");
@@ -158,7 +158,7 @@ class Gamecard{
                 let short_get_counts1 = this.dice.get_counts().slice(0,4);
                 let short_get_counts2 = this.dice.get_counts().slice(1,5);
                 let short_get_counts3 = this.dice.get_counts().slice(2,6);
-                console.log(short_get_counts1, short_get_counts2, short_get_counts3);
+                //console.log(short_get_counts1, short_get_counts2, short_get_counts3);
                 let shortened_get_counts = [short_get_counts1, short_get_counts2, short_get_counts3];
                 let if_valid = new Array();
 
@@ -258,7 +258,7 @@ class Gamecard{
             bonus = 35; 
             document.getElementById("upper_score").innerText = upper_sum;
         } 
-        console.log("upper_sum, lower_sum, bonus", upper_sum, lower_sum, bonus);
+        //console.log("upper_sum, lower_sum, bonus", upper_sum, lower_sum, bonus);
 
         let grand_total = upper_sum + lower_sum + bonus; 
         return grand_total;
@@ -287,7 +287,7 @@ class Gamecard{
             bonus = 35; 
             document.getElementById("upper_score").innerText = upper_sum;
         } 
-        console.log("upper_sum, lower_sum, bonus", upper_sum, lower_sum, bonus);
+        //console.log("upper_sum, lower_sum, bonus", upper_sum, lower_sum, bonus);
         return upper_sum, lower_sum, bonus; 
     }
 
