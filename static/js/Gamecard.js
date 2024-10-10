@@ -119,13 +119,20 @@ class Gamecard{
             } else if (category == "small_straight_input") { //fix: ex. 2, 3, 4, 5, 5
                 let sorted_counts = this.dice.get_counts().sort(); 
                 if ((sorted_counts.includes("1, 1, 1, 1")) || (sorted_counts.includes("1, 1, 1, 2") && this.dice.get_counts()[1] != 0 && this.dice.get_counts()[2] != 0 && this.dice.get_counts()[3] != 0)) {
+            
+                    modified_get_counts = Array.from(this.dice.get_counts());
+                    for (let i = 0; i < modified_get_counts.length; i++) {
+                        if (modified_get_counts[i] == 2) {
+                            modified_get_counts[i] = 1;
+                        }
+                    }
+                    console.log("modified_get_counts", modified_get_counts);
                     let sum = 0;
-
-                    for (num in this.dice.get_counts()) {
-                        if (num == 1 || num == 2) {
-                            sum += ((this.dice.get_counts().indexOf(num)) + 1);
+                    for (num in modified_get_counts) {
+                        if (num == 1) {
+                            sum += ((modified_get_counts.indexOf(num)) + 1);
                         } else {
-                            sum += 0
+                            sum += 0;
                         }
                     }
 
