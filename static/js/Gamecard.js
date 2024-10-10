@@ -118,7 +118,7 @@ class Gamecard{
                 }
             } else if (category == "small_straight_input") { //fix: ex. 2, 3, 4, 5, 5
                 let sorted_counts = this.dice.get_counts().sort(); 
-                if (sorted_counts.includes("1, 1, 1, 1") || sorted_counts.includes("1, 1, 1, 2")) {
+                if ((sorted_counts.includes("1, 1, 1, 1")) || (sorted_counts.includes("1, 1, 1, 2") && this.dice.get_counts()[1] != 0 && this.dice.get_counts()[2] != 0 && this.dice.get_counts()[3] != 0)) {
                     let sum = 0;
                     for (num in this.dice.get_counts()) {
                         if (num == 1 || num == 2) {
