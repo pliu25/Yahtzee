@@ -326,6 +326,9 @@ class Gamecard{
        //can use load_scorecard + to_object to test MS3, create partial games that are practically all filled out
        //goes through the objects and then puts in all scores, then disables it
        //only if score in it
+       
+       console.log("score_info", score_info); 
+       return gameObject; 
 
 
     }

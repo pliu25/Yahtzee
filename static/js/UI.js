@@ -63,6 +63,7 @@ function enter_score_handler(event){
     console.log("gamecard", gamecard.is_valid_score(category, value));
     console.log("upper_sum, lower_sum, bonus", gamecard.update_scores());
     console.log("grand_total", gamecard.get_score());
+    console.log("score_info", gamecard.load_scorecard());
     //totals
     //document.getElementById("upper_total").innerText = gamecard.update_scores().upper_sum + gamecard.update_scores().bonus; 
 }
