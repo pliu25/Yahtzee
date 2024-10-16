@@ -45,6 +45,7 @@ class Gamecard{
         console.log("upper_categories", upper_categories);
 
         console.log("category", category + "_input");
+        console.log("this.dice.get_counts()", this.dice.get_counts())
         
         if (this.dice.get_sum() == 0 || Number.isInteger(value) == false) {
             return false;
@@ -185,10 +186,14 @@ class Gamecard{
             } else if (category == "large_straight") {
                 if (this.dice.get_counts().includes("1, 1, 1, 1, 1")) {
                     if (value == 40) {
-                        score_valid = Boolean(1);
+                        console.log("yay");
+                        score_valid = true;
+                        //console.log("this.dice.get_counts()", this.dice.get_counts());
                         disable_attribute.disabled=true;
-                    } else if (value.toString() != "0") {
-                        score_valid = Boolean(0);
+                    } else {
+                        console.log("nay");
+                        score_valid = false; 
+                        //console.log("this.dice.get_counts()", this.dice.get_counts());
                     }
                 } else if (value.toString() != "0") {
                     score_valid = Boolean(0);
@@ -227,9 +232,9 @@ class Gamecard{
             console.log("nay");
         }*/
         //console.log("category", category);
-        //console.log("get_counts", this.dice.get_counts());
+        console.log("get_counts", this.dice.get_counts());
         //if category * this.die.get_counts[index -1] == value return true, if not rteurn false 
-       
+        
         return score_valid;
     }
 
