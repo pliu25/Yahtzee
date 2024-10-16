@@ -184,7 +184,7 @@ class Gamecard{
                     }
                 }
             } else if (category == "large_straight") {
-                if (this.dice.get_counts().includes("1, 1, 1, 1, 1")) {
+                if (this.dice.get_counts().toString().includes("1, 1, 1, 1, 1")) {
                     if (value == 40) {
                         console.log("yay");
                         score_valid = true;
