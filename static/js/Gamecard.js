@@ -57,7 +57,7 @@ class Gamecard{
             return true;
         }
         
-        let rev_category = category + "_input"
+        let rev_category = category + "_input";
         //upper categories
         if (upper_categories.includes(rev_category)) {
             if (value == ((this.dice.get_counts()[upper_categories.indexOf(rev_category)]) * ((upper_categories.indexOf(rev_category)) + 1))) {
@@ -184,18 +184,19 @@ class Gamecard{
                     }
                 }
             } else if (category == "large_straight") {
-                if (this.dice.get_counts().toString().includes("1, 1, 1, 1, 1")) {
+                if (this.dice.get_counts().includes(1, 1, 1, 1, 1)) {
                     if (value == 40) {
                         console.log("yay");
-                        score_valid = true;
+                        score_valid = Boolean(1);
                         //console.log("this.dice.get_counts()", this.dice.get_counts());
                         disable_attribute.disabled=true;
                     } else {
                         console.log("nay");
-                        score_valid = false; 
+                        score_valid = Boolean(0); 
                         //console.log("this.dice.get_counts()", this.dice.get_counts());
                     }
-                } else if (value.toString() != "0") {
+                } else {
+                    console.log("nay2");
                     score_valid = Boolean(0);
                 }
             } else if (category == "yahtzee") {
