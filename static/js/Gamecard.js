@@ -74,7 +74,7 @@ class Gamecard{
         } else { //lower categories
             if (category == "three_of_a_kind") {
                 if (this.dice.get_counts().some((num) => num >= 3)) {
-                    let rev_get_counts = []
+                    let rev_get_counts = [];
                     for (let num of this.dice.get_counts()) {
                         if (num >= 3) {
                             rev_get_counts = [this.dice.get_counts().indexOf(num), num];
@@ -233,7 +233,7 @@ class Gamecard{
             console.log("nay");
         }*/
         //console.log("category", category);
-        console.log("get_counts", this.dice.get_counts());
+        //console.log("get_counts", this.dice.get_counts());
         //if category * this.die.get_counts[index -1] == value return true, if not rteurn false 
         
         return score_valid;
