@@ -61,10 +61,10 @@ class Gamecard{
         //upper categories
         if (upper_categories.includes(rev_category)) {
             if (value == ((this.dice.get_counts()[upper_categories.indexOf(rev_category)]) * ((upper_categories.indexOf(rev_category)) + 1))) {
-                score_valid = Boolean(1);
                 disable_attribute.disabled=true;
+                score_valid = Boolean(1);  
             } else {
-                score_valid = Boolean(0);
+                score_valid = Boolean(0);  
             }
             console.log("get_counts", this.dice.get_counts()[upper_categories.indexOf(category)]);
             console.log("final_check", ((this.dice.get_counts()[upper_categories.indexOf(category)]) * ((upper_categories.indexOf(category)) + 1)));
@@ -85,7 +85,7 @@ class Gamecard{
                     
                     if (value == this.dice.get_sum()) {
                         score_valid = Boolean(1);
-                        disable_attribute.setAttribute("disabled", "");
+                        disable_attribute.disabled=true;
                         console.log("yay");
                     } else {
                         score_valid = Boolean(0);
@@ -327,9 +327,27 @@ class Gamecard{
        //goes through the objects and then puts in all scores, then disables it
        //only if score in it
        
-       console.log("score_info", score_info); 
-       return gameObject; 
+       //console.log("score_info", score_info); 
+       //return gameObject; 
 
+       for (let key in score_info) {
+        if (key == "rolls_remaining") {
+            document.getElementById(key).textContent = score_info(section).toString();
+        } else {
+            for (let category in score_info[section]) {
+                let category_id = category + "_input"; 
+
+                if (score_info[section][category] != -1) {
+                    document.getElementById(category_id).value = score_info[section][category].toString(); 
+                    document.getElementById(category_id).disabled = true; 
+                } else {
+                    document.getElementById(category_id).value = ""; 
+                    document.getElementById(category_id).disabled = false; 
+                }
+    
+            }
+        }
+       }
 
     }
 
@@ -360,8 +378,28 @@ class Gamecard{
      *
      */
     to_object(){
+        let scorecard_obj = {}; 
+        scorecard_obj.rolls_remaining = this.dice.get_rolls_remaining();
+        scorecard_obj.upper = {}; 
+        scorecard_obj.lower = {};
 
-      
+        for (category of this.category_elements) {
+            let category_key = category.id.replace("_input", ""); 
+            if (category.classList.includes("upper")) {
+                if (category.disabled == true) {
+                    scorecard_obj.upper[category_key] = Number(category.value);
+                } else {
+                    scorecard_obj.upper[category_key] = -1; 
+                }
+            } else {
+                if (category.disabled == true) {
+                    scorecard_obj.lower[category_key] = Number(category.value);
+                } else {
+                    scorecard_obj.lower[category_key] = -1; 
+                }
+            }
+        }
+        return scorecard_obj; 
     }
 }
 
