@@ -57,9 +57,9 @@ function load_button_handler(event){
     gamecard.load_scorecard(JSON.parse(got_scorecard_obj));
 
     if (got_scorecard_obj == null) {
-        display_feedback("bad", "a saved game does not exist.")
+        display_feedback("a saved game does not exist.", "bad");
     } else {
-        display_feedback("good", "yay! successfully loaded game!");
+        display_feedback("yay! successfully loaded game!", "good");
     }
 }
 
@@ -79,6 +79,10 @@ function roll_dice_handler(){
     console.log("Dice values:", dice.get_values());
     console.log("Sum of all dice:", dice.get_sum());
     console.log("Count of all dice faces:", dice.get_counts());
+
+    if (dice.get_rolls_remaining() == 0) {
+        display_feedback("out of rolls", "bad");
+    }
 }
 
 function enter_score_handler(event){
@@ -96,8 +100,23 @@ function enter_score_handler(event){
     console.log("scorecard_obj", gamecard.to_object());
     gamecard.is_valid_score(category, value);
     gamecard.load_scorecard();
-    //totals
-    //document.getElementById("upper_total").innerText = gamecard.update_scores().upper_sum + gamecard.update_scores().bonus; 
+    gamecard.update_scores();
+    
+    if (gamecard.is_valid_score(category, value) == true) {
+        display_feedback("yay! valid score!", "good");
+        //document.getElementById(event.target.id).disabled = true; 
+    } else {
+        display_feedback("unvalid score", "bad");
+        //document.getElementById(event.target.id).disabled = false; 
+    }
+
+    if (gamecard.is_finished() == true) {
+        display_feedback("yay! game is finished!", "good");
+        dice.reset();
+    } 
+
+
+    
 }
 
 //------Feedback ---------//
