@@ -35,10 +35,35 @@ let score_elements = Array.from(document.getElementsByClassName("score"));
 let gamecard = new Gamecard(category_elements, score_elements, dice);
 window.gamecard = gamecard; //useful for testing to add a reference to global window object
 
+//button setup 
+let save_button = document.getElementById("save_game");
+let load_button = document.getElementById("load_game");
+
+save_button.addEventListener("click", save_button_handler);
+load_button.addEventListener("click", load_button_handler);
 
 
 
 //---------Event Handlers-------//
+function save_button_handler(event){
+    let scorecard_obj = gamecard.to_object(); 
+    localStorage.setItem("yahztee", JSON.stringify(scorecard_obj));
+    console.log("save button");
+}
+
+function load_button_handler(event){
+    console.log("load button");
+    let got_scorecard_obj = localStorage.getItem("yahtzee"); 
+    gamecard.load_scorecard(JSON.parse(got_scorecard_obj));
+
+    if (got_scorecard_obj == null) {
+        display_feedback("bad", "a saved game does not exist.")
+    } else {
+        display_feedback("good", "yay! successfully loaded game!");
+    }
+}
+
+
 function reserve_die_handler(event){
     //console.log(event.target);
     //console.log(event);
@@ -78,5 +103,16 @@ function enter_score_handler(event){
 //------Feedback ---------//
 function display_feedback(message, context){
     console.log(context, "Feedback: ", message);
-
+    let feedback_el = document.getElementById("feedback"); 
+    
+    if (context == "good") {
+        feedback_el.className = '';
+        feedback_el.classList.add("good");
+        feedback_el.textContent = message;
+    } 
+    if (context == "bad") {
+        feedback_el.className = '';
+        feedback_el.classList.add("bad");
+        feedback_el.textContent = message;
+    } 
 }
