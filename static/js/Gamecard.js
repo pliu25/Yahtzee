@@ -47,7 +47,11 @@ class Gamecard{
         console.log("category", category + "_input");
         console.log("this.dice.get_counts()", this.dice.get_counts())
         
-        if (this.dice.get_sum() == 0 || Number.isInteger(value) == false) {
+        if (this.dice.get_sum() == 0) {
+            return false;
+        } 
+
+        if (typeof value === "string") {
             return false;
         }
 
@@ -58,6 +62,7 @@ class Gamecard{
         }
         
         let rev_category = category + "_input";
+        console.log("rev_category", rev_category);
         //upper categories
         if (upper_categories.includes(rev_category)) {
             if (value == ((this.dice.get_counts()[upper_categories.indexOf(rev_category)]) * ((upper_categories.indexOf(rev_category)) + 1))) {

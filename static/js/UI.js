@@ -60,12 +60,15 @@ function enter_score_handler(event){
     console.log("Score entry attempted for: ", event.target.id);
     console.log("input value: ", document.getElementById(event.target.id).value/*gamecard.is_valid_score()*/);
     let value = document.getElementById(event.target.id).value; 
+    if (value.trim() != ""){
+        value = parseInt(document.getElementById(event.target.id).value);
+    }
     let category = event.target.id.replace("_input", "");
     console.log("gamecard", gamecard.is_valid_score(category, value));
     console.log("upper_sum, lower_sum, bonus", gamecard.update_scores());
     console.log("grand_total", gamecard.get_score());
     console.log("score_info", gamecard.load_scorecard());
-    gamecard.is_valid_score(); 
+    gamecard.is_valid_score(category, value);
     gamecard.load_scorecard();
     //totals
     //document.getElementById("upper_total").innerText = gamecard.update_scores().upper_sum + gamecard.update_scores().bonus; 
