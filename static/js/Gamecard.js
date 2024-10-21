@@ -337,13 +337,13 @@ class Gamecard{
 
        for (let key in score_info) {
         if (key == "rolls_remaining") {
-            document.getElementById(key).textContent = score_info(section).toString();
+            document.getElementById(key).textContent = score_info[key].toString();
         } else {
-            for (let category in score_info[section]) {
+            for (let category in score_info[key]) {
                 let category_id = category + "_input"; 
 
-                if (score_info[section][category] != -1) {
-                    document.getElementById(category_id).value = score_info[section][category].toString(); 
+                if (score_info[key][category] != -1) {
+                    document.getElementById(category_id).value = score_info[key][category].toString(); 
                     document.getElementById(category_id).disabled = true; 
                 } else {
                     document.getElementById(category_id).value = ""; 
@@ -388,9 +388,9 @@ class Gamecard{
         scorecard_obj.upper = {}; 
         scorecard_obj.lower = {};
 
-        for (category of this.category_elements) {
+        for (let category of this.category_elements) {
             let category_key = category.id.replace("_input", ""); 
-            if (category.classList.includes("upper")) {
+            if (category.classList.contains("upper")) {
                 if (category.disabled == true) {
                     scorecard_obj.upper[category_key] = Number(category.value);
                 } else {
