@@ -293,9 +293,6 @@ class Gamecard{
         grand_total += (upper_total + lower_sum); 
         document.getElementById("grand_total").textContent = grand_total.toString(); 
 
-
-        
-
         console.log(upper_sum, bonus, upper_total, lower_sum, grand_total);
         
     }
