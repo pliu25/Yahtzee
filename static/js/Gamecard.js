@@ -250,29 +250,12 @@ class Gamecard{
     * @return {Number} an integer value representing the curent game score
     */
     get_score(){
-        let upper_sum = 0;
-        let lower_sum = 0; 
-        let bonus = 0; 
-
+        let sum = 0; 
         for (let category of this.category_elements) {
-            if (category.hasAttribute("disabled")) {
-                if (category.className == "upper category") {
-                    upper_sum += Number(category.value);
-                } else if (category.className == "lower category") {
-                    lower_sum += Number(category.value);
-                }
-            }
+            sum += Number(category.value);
         }
 
-        let total_sum = upper_sum + lower_sum; 
-        if (total_sum > 63) {
-            bonus = 35; 
-            document.getElementById("upper_score").innerText = upper_sum;
-        } 
-        //console.log("upper_sum, lower_sum, bonus", upper_sum, lower_sum, bonus);
-
-        let grand_total = upper_sum + lower_sum + bonus; 
-        return grand_total;
+        return sum;
     }
 
     /**
@@ -280,11 +263,15 @@ class Gamecard{
     */
     update_scores(){
         let upper_sum = 0;
-        let lower_sum = 0; 
         let bonus = 0; 
+        let upper_total = 0;
+        let lower_sum = 0; 
+        let grand_total = 0; 
+        
+        
 
         for (let category of this.category_elements) {
-            if (category.hasAttribute("disabled")) {
+            if (category.disabled == true) {
                 if (category.className == "upper category") {
                     upper_sum += Number(category.value);
                 } else if (category.className == "lower category") {
@@ -293,13 +280,24 @@ class Gamecard{
             }
         }
 
-        let total_sum = upper_sum + lower_sum; 
-        if (total_sum > 63) {
-            bonus = 35; 
-            document.getElementById("upper_score").innerText = upper_sum;
+        document.getElementById("upper_score").textContent = upper_sum.toString();
+        if (upper_sum >= 63) {
+            bonus += 35; 
         } 
-        //console.log("upper_sum, lower_sum, bonus", upper_sum, lower_sum, bonus);
-        return upper_sum, lower_sum, bonus; 
+        upper_total += (upper_sum + bonus);
+        document.getElementById("upper_bonus").textContent = bonus.toString();
+        document.getElementById("upper_total").textContent = upper_total.toString();
+        document.getElementById("lower_score").textContent = lower_sum.toString(); 
+        document.getElementById("upper_total_lower").textContent = upper_total.toString();
+
+        grand_total += (upper_total + lower_sum); 
+        document.getElementById("grand_total").textContent = grand_total.toString(); 
+
+
+        
+
+        console.log(upper_sum, bonus, upper_total, lower_sum, grand_total);
+        
     }
 
     /**

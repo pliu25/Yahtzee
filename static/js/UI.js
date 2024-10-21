@@ -65,7 +65,7 @@ function enter_score_handler(event){
     }
     let category = event.target.id.replace("_input", "");
     console.log("gamecard", gamecard.is_valid_score(category, value));
-    console.log("upper_sum, lower_sum, bonus", gamecard.update_scores());
+    console.log("updated scorecard", gamecard.update_scores());
     console.log("grand_total", gamecard.get_score());
     console.log("score_info", gamecard.load_scorecard());
     console.log("scorecard_obj", gamecard.to_object());

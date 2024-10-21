@@ -143,7 +143,6 @@ class MS2_Gamecard_Tests(unittest.TestCase):
         scorecard_info = self.score_info_finished
         self.browser.execute_script(f"window.gamecard.load_scorecard(JSON.parse('{json.dumps(scorecard_info)}'));")
         all_scorecard_values =  get_current_category_values(self.browser, self.upper_categories, self.lower_categories)
-    
         for upper_category in self.upper_categories:
             self.assertEqual(all_scorecard_values[upper_category], scorecard_info["upper"][upper_category])
         for lower_category in self.lower_categories:
@@ -320,6 +319,7 @@ class MS2_Gamecard_Tests(unittest.TestCase):
         self.browser.execute_script(f"window.gamecard.load_scorecard(JSON.parse('{json.dumps(scorecard_info)}'));")
         self.browser.execute_script(f"window.gamecard.update_scores();")
         score_values = get_current_score_values(self.browser, self.score_elements)
+        #print(score_values)
         self.assertEqual(score_values["upper_score"], 36)
         self.assertEqual(score_values["upper_bonus"], None)
         self.assertEqual(score_values["upper_total"], 36)
