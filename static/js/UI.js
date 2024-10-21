@@ -45,13 +45,13 @@ load_button.addEventListener("click", load_button_handler);
 
 
 //---------Event Handlers-------//
-function save_button_handler(event){
+function save_button_handler(){
     let scorecard_obj = gamecard.to_object(); 
     localStorage.setItem("yahztee", JSON.stringify(scorecard_obj));
     console.log("save button");
 }
 
-function load_button_handler(event){
+function load_button_handler(){
     console.log("load button");
     let got_scorecard_obj = localStorage.getItem("yahtzee"); 
     gamecard.load_scorecard(JSON.parse(got_scorecard_obj));
@@ -73,16 +73,18 @@ function reserve_die_handler(event){
 
 function roll_dice_handler(){
     rolls_remaining_element;
-    display_feedback("Rolling the dice...", "good");
-    dice.roll();
+    
+    if (dice.get_rolls_remaining() <= 0) {
+        display_feedback("out of rolls", "bad");
+    } else {
+        dice.roll();
+        display_feedback("rolling the dice...", "cleared");
+    }
     dice.get_rolls_remaining();
     console.log("Dice values:", dice.get_values());
     console.log("Sum of all dice:", dice.get_sum());
     console.log("Count of all dice faces:", dice.get_counts());
 
-    if (dice.get_rolls_remaining() == 0) {
-        display_feedback("out of rolls", "bad");
-    }
 }
 
 function enter_score_handler(event){
@@ -114,8 +116,6 @@ function enter_score_handler(event){
         display_feedback("yay! game is finished!", "good");
         dice.reset();
     } 
-
-
     
 }
 
@@ -134,4 +134,10 @@ function display_feedback(message, context){
         feedback_el.classList.add("bad");
         feedback_el.textContent = message;
     } 
+    if (context == "cleared") {
+        feedback_el.className = '';
+        feedback_el.classList.add("cleared");
+        feedback_el.textContent = message;
+    } 
+
 }
