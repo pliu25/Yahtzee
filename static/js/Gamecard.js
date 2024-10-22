@@ -250,12 +250,15 @@ class Gamecard{
     * @return {Number} an integer value representing the curent game score
     */
     get_score(){
-        let sum = 0; 
-        for (let category of this.category_elements) {
-            sum += Number(category.value);
+        this.update_scores(); 
+        return Number(document.getElementById("grand_total").textContent);
+        /*let sum = 0; 
+        for (let category of this.update_scores()) {
+            sum += Number(category.innerHTML);
         }
+        
 
-        return sum;
+        return sum;*/
     }
 
     /**
@@ -283,9 +286,12 @@ class Gamecard{
         document.getElementById("upper_score").textContent = upper_sum.toString();
         if (upper_sum >= 63) {
             bonus += 35; 
-        } 
+            document.getElementById("upper_bonus").textContent = bonus.toString();
+        } else {
+            document.getElementById("upper_bonus").textContent = '';
+        }
         upper_total += (upper_sum + bonus);
-        document.getElementById("upper_bonus").textContent = bonus.toString();
+        
         document.getElementById("upper_total").textContent = upper_total.toString();
         document.getElementById("lower_score").textContent = lower_sum.toString(); 
         document.getElementById("upper_total_lower").textContent = upper_total.toString();
@@ -346,8 +352,10 @@ class Gamecard{
                 }
     
             }
+            this.update_scores();
         }
        }
+
 
     }
 

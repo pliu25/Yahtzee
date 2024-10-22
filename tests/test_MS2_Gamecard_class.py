@@ -244,6 +244,7 @@ class MS2_Gamecard_Tests(unittest.TestCase):
         scorecard_info = self.score_info_finished
         self.browser.execute_script(f"window.gamecard.load_scorecard(JSON.parse('{json.dumps(scorecard_info)}'));")
         score = self.browser.execute_script(f"return window.gamecard.get_score();")
+        self.browser.save_screenshot('full_scorecard.png')
         self.assertEqual(score, 288)
     
     def test_get_score_full_scorecard_no_bonus(self):
@@ -258,6 +259,7 @@ class MS2_Gamecard_Tests(unittest.TestCase):
         scorecard_info = self.score_info_partial_bonus
         self.browser.execute_script(f"window.gamecard.load_scorecard(JSON.parse('{json.dumps(scorecard_info)}'));")
         score = self.browser.execute_script(f"return window.gamecard.get_score();")
+        self.browser.save_screenshot('partial_scorecard.png')
         self.assertEqual(score, 193)
     
     def test_get_score_partial_scorecard_no_bonus(self):
