@@ -47,8 +47,15 @@ load_button.addEventListener("click", load_button_handler);
 //---------Event Handlers-------//
 function save_button_handler(){
     let scorecard_obj = gamecard.to_object(); 
-    localStorage.setItem("yahztee", JSON.stringify(scorecard_obj));
+    localStorage.setItem("yahtzee", JSON.stringify(scorecard_obj));
     console.log("save button");
+
+    if (scorecard_obj == null) {
+        display_feedback("a saved game does not exist.", "bad");
+    } else {
+        display_feedback("yay! successfully saved game!", "good");
+    }
+    
 }
 
 function load_button_handler(){
@@ -57,7 +64,7 @@ function load_button_handler(){
     gamecard.load_scorecard(JSON.parse(got_scorecard_obj));
 
     if (got_scorecard_obj == null) {
-        display_feedback("a saved game does not exist.", "bad");
+        display_feedback("a loaded game does not exist.", "bad");
     } else {
         display_feedback("yay! successfully loaded game!", "good");
     }
@@ -68,7 +75,7 @@ function reserve_die_handler(event){
     //console.log(event.target);
     //console.log(event);
     dice.reserve(event.target);
-    console.log("Trying to reserve "+event.target.id);
+    console.log("Trying to reserve " + event.target.id);
 }
 
 function roll_dice_handler(){
@@ -78,8 +85,10 @@ function roll_dice_handler(){
         display_feedback("out of rolls", "bad");
     } else {
         dice.roll();
-        display_feedback("rolling the dice...", "cleared");
+        display_feedback("", "");
     }
+
+
     dice.get_rolls_remaining();
     console.log("Dice values:", dice.get_values());
     console.log("Sum of all dice:", dice.get_sum());
@@ -102,10 +111,11 @@ function enter_score_handler(event){
     console.log("scorecard_obj", gamecard.to_object());
     gamecard.is_valid_score(category, value);
     gamecard.load_scorecard();
-    gamecard.update_scores();
     
     if (gamecard.is_valid_score(category, value) == true) {
         display_feedback("yay! valid score!", "good");
+        dice.reset();
+        gamecard.update_scores();
         //document.getElementById(event.target.id).disabled = true; 
     } else {
         display_feedback("unvalid score", "bad");
@@ -127,17 +137,20 @@ function display_feedback(message, context){
     if (context == "good") {
         feedback_el.className = '';
         feedback_el.classList.add("good");
+        feedback_el.classList.remove("bad");
         feedback_el.textContent = message;
     } 
     if (context == "bad") {
         feedback_el.className = '';
         feedback_el.classList.add("bad");
+        feedback_el.classList.remove("good");
         feedback_el.textContent = message;
     } 
-    if (context == "cleared") {
+    if (context == "") {
         feedback_el.className = '';
-        feedback_el.classList.add("cleared");
+        feedback_el.classList.remove("good");
+        feedback_el.classList.remove("bad");
         feedback_el.textContent = message;
-    } 
+    }
 
 }
