@@ -1,0 +1,35 @@
+<style>
+    .w3-bar a:hover {
+      background-color: rgb(223, 169, 252);
+    }
+  </style>
+  <div class="w3-container" style="width: 100%;">
+    <div class="w3-bar" style="width: 100%; background-color: rgb(240, 212, 255)">
+      <a href="/" class="w3-bar-item w3-button" style="font-family: 'Mate', serif; font-weight: bold; color: rgb(37,1,56)"> Tracking Dogs in NYC </a>
+      <a href="/" class="w3-bar-item w3-button" style=" font-family: 'Mate', serif; color: rgb(37,1,56)">About</a>
+      <a href="/macro" class="w3-bar-item w3-button" style=" font-family: 'Mate', serif; color: rgb(37,1,56)">Dog Populations in NYC: Zipcode Map</a>
+      <!--
+      <div class="w3-dropdown-click">
+        <button class="w3-button" style="font-family: 'Mate', serif; color: rgb(37,1,56)"onclick="myFunction()">
+          Comparing Dog Breed Populations in... <i class="fa fa-caret-down" style="font-family: 'Mate', serif; color: rgb(37,1,56)"></i>
+        </button>
+        <div id="demo" class="w3-dropdown-content w3-bar-block w3-card">
+          {% for zip in all_zips %}
+          <a href="/micro?{{zip}}" class="w3-bar-item w3-button" style=" font-family: 'Mate', serif; background-color: rgb(240, 212, 255); color: rgb(37,1,56)"> {{zip}}</a>
+          {% endfor %}
+        </div>
+        -->
+      </div>
+    </div>
+  
+  <script>
+    function myFunction() {
+      var x = document.getElementById("demo");
+      if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+      } else { 
+        x.className = x.className.replace(" w3-show", "");
+      }
+    }
+  </script>
+  

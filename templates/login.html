@@ -2,9 +2,12 @@
 <html>
 <head>
     {% include 'css.html' %}
+    {% include 'integrate_bootstrap.html' %}
     <title>Yahtzee: Login</title>
+
 </head>
 <body>
+    {% include 'partials/navbar.html' %}
     <form action="/game" method="GET">
         <label for="fname">Username:</label><br>
         <input type="text" id="username_input" name="username"><br>
@@ -14,5 +17,5 @@
       </form> 
 
 </body>
-{% include 'footer.html' %}
+{% include 'partials/footer.html' %}
 </html>

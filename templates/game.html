@@ -2,9 +2,11 @@
 <html>
 <head>
     {% include 'css.html' %}
+    {% include 'integrate_bootstrap.html' %}
     <title>Yahtzee: {{username}}</title>
 </head>
 <body>
+    {% include 'partials/navbar.html' %}
     <h1>Yahtzee: {{username}}</h1>
     <section id="save_and_load">
         <table>
@@ -145,5 +147,5 @@
       
       <script src="/js/UI.js"  type="module"></script> usually last, bc need to load all elements first
 </body>
-{% include 'footer.html' %}
+{% include 'partials/footer.html' %}
 </html>
