@@ -15,9 +15,11 @@ from controllers import session_controller, user_controller, game_controller, sc
 
 app = Flask(__name__, static_url_path='', static_folder='static')
 
+'''
 @app.route('/')
 def login():
     return render_template("login.html")
+'''
 app.add_url_rule('/', view_func = session_controller.login, methods = ['GET'])
 #app.add_url_rule('/index', view_func = session_controller.login, methods = ['GET'])
 app.add_url_rule('/login', view_func = session_controller.login, methods = ['GET'])
