@@ -3,8 +3,8 @@ import sqlite3
 import os
 import datetime
 
-from Game_Model_starter import Game
-from User_Model_starter import User
+from Game_Model import Game
+from User_Model import User
 
 def ensure_data_packet_formatting(self, packet, method, status):
     if status == "success":

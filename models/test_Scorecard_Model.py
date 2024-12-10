@@ -4,9 +4,9 @@ import os
 import json
 
 #test should inhabit the same folder
-from Game_Model_starter import Game
-from User_Model_starter import User
-from Scorecard_Model_starter import Scorecard
+from Game_Model import Game
+from User_Model import User
+from Scorecard_Model import Scorecard
 
 def ensure_data_packet_formatting(self, packet, method, status):
     if status == "success":

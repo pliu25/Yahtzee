@@ -12,7 +12,7 @@ from DB_Helper import wipe_and_clean_tables
 
 fpath = os.path.join(os.path.dirname(__file__), '../models') #Assumes this file lives in a tests folder next to the Models folder
 sys.path.append(fpath)
-import User_Model_starter
+import User_Model
 
 class Basic_Web_Tests(unittest.TestCase):
 

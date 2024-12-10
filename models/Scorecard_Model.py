@@ -4,8 +4,8 @@ import sqlite3
 import random
 import json
 
-from User_Model_starter import User
-from Game_Model_starter import Game
+from User_Model import User
+from Game_Model import Game
 
 class Scorecard:
     def __init__(self, db_name, scorecard_table_name, user_table_name, game_table_name):

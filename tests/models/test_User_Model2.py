@@ -6,7 +6,7 @@ import sys
 fpath = os.path.join(os.path.dirname(__file__), '../models') #Assumes this file lives in a tests folder next to the Models folder
 sys.path.append(fpath)
 #test should inhabit the same folder as User_Model.py
-from User_Model_starter import User
+from User_Model import User
 
 def ensure_data_packet_formatting(self, packet, method, status):
     if status == "success":
