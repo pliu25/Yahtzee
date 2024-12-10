@@ -20,9 +20,16 @@ app = Flask(__name__, static_url_path='', static_folder='static')
 def login():
     return render_template("login.html")
 '''
+#session
 app.add_url_rule('/', view_func = session_controller.login, methods = ['GET'])
 #app.add_url_rule('/index', view_func = session_controller.login, methods = ['GET'])
 app.add_url_rule('/login', view_func = session_controller.login, methods = ['GET'])
+
+#user
+app.add_url_rule('/users', view_func = session_controller.user_details, methods = ['GET', 'POST'])
+app.add_url_rule('/users/<username>', view_func = session_controller.user_details, methods = ['GET'])
+app.add_url_rule('/users/<username>', view_func = session_controller.update, methods = ['POST'])
+app.add_url_rule('/users/delete/<username>', view_func = session_controller.delete, methods = ['GET'])
 
 @app.route('/game')
 def game():
