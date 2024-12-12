@@ -27,12 +27,13 @@ def user_details():
     print(f"request.url={request.args.get('name')}") #GET request & query string 
     print(f"request.url={request.form.get('name')}") #POST request & form name
 
+    #get current user details
     if request.method == 'GET':
-        print("User.get()", User.get())
-        return User.get()["data"]
+        return render_template('user_details.html',request.args.get('username'))
     
+    #update user details
     if request.method == 'POST':
-        return User.create()
+        return render_template('user_details.html',request.args.get(User.update()["data"]["username"]), request.args.get(User.update()["data"]["password"]), request.args.get(User.update()["data"]["email"]))
 
     return render_template('user_details.html')
 

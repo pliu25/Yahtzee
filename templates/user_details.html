@@ -17,6 +17,15 @@
         <input type="text" id="email_input" name="email"><br><br>
         <input type="submit" id="login_submit" value="Submit">
       </form> 
+    <form action="/users/{User.username}" method="POST">
+        <label for="fname">Username:</label><br>
+        <input type="text" id="username_input" name="username"><br>
+        <label for="lname">Password:</label><br>
+        <input type="text" id="password_input" name="password"><br><br>
+        <label for="lname">Email:</label><br>
+        <input type="text" id="email_input" name="email"><br><br>
+        <input type="submit" id="login_submit" value="Submit">
+      </form> 
 
 </body>
 {% include 'partials/footer.html' %}
