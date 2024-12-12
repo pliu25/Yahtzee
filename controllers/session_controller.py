@@ -8,3 +8,5 @@ def login():
     print(query_string, "query_string") 
     print(f"request.url={request.url}")
     return render_template('login.html')
+
+#user_games.html, login.html: if username and password match, go to user games, if not go to login with some feedback 

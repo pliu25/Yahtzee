@@ -6,7 +6,7 @@ sys.path.append(fpath)
 import User_Model, Game_Model, Scorecard_Model
 
 def wipe_and_clean_tables(yahtzee_db_name):
-    yahtzee_db_name=f"{os.getcwd()}/../models/yahtzeeDB.db"
+    yahtzee_db_name=f"{os.getcwd()}/models/yahtzeeDB.db"
     print("yahtzee_db_name", yahtzee_db_name)
     user_table_name = "users"
     game_table_name = "games"
