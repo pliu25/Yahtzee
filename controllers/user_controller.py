@@ -17,7 +17,8 @@ def users():
         return render_template('user_details.html')
     
     if request.method == 'POST':
-        return render_template('user_games.html', request.form.get('username'), request.form.get('password'), request.form.get('email'))
+        if User.create()["data"]["status"] != "error":
+            return render_template('user_games.html', request.form.get('username'), request.form.get('password'), request.form.get('email'))
 
 def user_details():
     
@@ -31,11 +32,17 @@ def user_details():
     if request.method == 'GET':
         return render_template('user_details.html',request.args.get('username'))
     
+    if request.method == 'POST':
+        if User.create()["data"]["status"] != "error":
+            return render_template('user_details.html',request.form.get('username'), request.form.get('password'), request.form.get('email'))
+    '''
     #update user details
     if request.method == 'POST':
-        return render_template('user_details.html',request.args.get(User.update()["data"]["username"]), request.args.get(User.update()["data"]["password"]), request.args.get(User.update()["data"]["email"]))
-
+        return render_template('user_details.html',request.args.get(User.update()["data"]["username"]))
+    request.args.get(User.update()["data"]["password"]), request.args.get(User.update()["data"]["email"]))
+    
     return render_template('user_details.html')
+    '''
 
 def update():
    return User.update() 

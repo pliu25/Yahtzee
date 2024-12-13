@@ -17,15 +17,17 @@
         <input type="text" id="email_input" name="email"><br><br>
         <input type="submit" id="login_submit" value="Submit">
       </form> 
-    <form action="/users/{User.username}" method="POST">
+    <form action="/users/{{User.username}}" method="POST">
+        <input type="hidden" id="existing_id" name="id" value="{{User.id}}""><br>
         <label for="fname">Username:</label><br>
-        <input type="text" id="username_input" name="username"><br>
+        <input type="text" id="existing_username" name="username" value="{{User.username}}"><br>
         <label for="lname">Password:</label><br>
-        <input type="text" id="password_input" name="password"><br><br>
+        <input type="text" id="existing_password" name="password" value="{{User.password}}"><br><br>
         <label for="lname">Email:</label><br>
-        <input type="text" id="email_input" name="email"><br><br>
-        <input type="submit" id="login_submit" value="Submit">
-      </form> 
+        <input type="text" id="existing_email" name="email" value="{{User.email}}"><br><br>
+        <input type="update" id="update" value="Update">
+        <input type="delete" id="delete" value="Delete">
+      </form>
 
 </body>
 {% include 'partials/footer.html' %}
