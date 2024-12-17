@@ -9,7 +9,7 @@ fpath = os.path.join(os.path.dirname(__file__), '../models')
 sys.path.append(fpath)
 
 import User_Model 
-User_DB_location = './models/yahtzeeDb.db/users'
+User_DB_location = './models/yahtzeeDb.db'
 User = User_Model.User(User_DB_location, "users")
 
 def users():

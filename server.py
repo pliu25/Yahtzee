@@ -21,7 +21,7 @@ def login():
     return render_template("login.html")
 '''
 #session
-app.add_url_rule('/', view_func = session_controller.login, methods = ['GET'])
+app.add_url_rule('/', view_func = session_controller.index, methods = ['GET'])
 #app.add_url_rule('/index', view_func = session_controller.login, methods = ['GET'])
 app.add_url_rule('/login', view_func = session_controller.login, methods = ['GET'])
 
