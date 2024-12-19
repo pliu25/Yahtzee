@@ -8,28 +8,28 @@
 </head>
 <body>
     {% include 'partials/navbar.html' %}
-    <form action="/users" method="GET">
+    <form action="/users" method="POST">
         <label for="fname">Username:</label><br>
         <input type="text" id="username_input" name="username"><br>
         <label for="lname">Password:</label><br>
         <input type="text" id="password_input" name="password"><br><br>
         <label for="lname">Email:</label><br>
         <input type="text" id="email_input" name="email"><br><br>
-        <input type="submit" id="login_submit" value="Submit">
+        <input type="submit" id="login_submit" value="Create">
       </form> 
-      
-    <form action="/users/{{User.username}}" method="POST">
-        <input type="hidden" id="existing_id" name="id" value="{{User.id}}"><br>
+    <!--
+    <form action="/users/{{user_info["username"]}}" method="POST">
+        <input type="hidden" id="existing_id" name="id" value="user_info["id"]"><br>
         <label for="fname">Username:</label><br>
-        <input type="text" id="existing_username" name="username" value="{{User.username}}"><br>
+        <input type="text" id="existing_username" name="username" value="user_info["username"]"><br>
         <label for="lname">Password:</label><br>
-        <input type="text" id="existing_password" name="password" value="{{User.password}}"><br><br>
+        <input type="text" id="existing_password" name="password" value="user_info["password"]"><br><br>
         <label for="lname">Email:</label><br>
-        <input type="text" id="existing_email" name="email" value="{{User.email}}"><br><br>
+        <input type="text" id="existing_email" name="email" value="user_info["email"]"><br><br>
         <input type="update" id="update" value="Update">
         <input type="delete" id="delete" value="Delete">
       </form>
-
+      -->
 </body>
 {% include 'partials/footer.html' %}
 </html>
