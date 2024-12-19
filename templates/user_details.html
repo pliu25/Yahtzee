@@ -17,8 +17,9 @@
         <input type="text" id="email_input" name="email"><br><br>
         <input type="submit" id="login_submit" value="Submit">
       </form> 
+      
     <form action="/users/{{User.username}}" method="POST">
-        <input type="hidden" id="existing_id" name="id" value="{{User.id}}""><br>
+        <input type="hidden" id="existing_id" name="id" value="{{User.id}}"><br>
         <label for="fname">Username:</label><br>
         <input type="text" id="existing_username" name="username" value="{{User.username}}"><br>
         <label for="lname">Password:</label><br>

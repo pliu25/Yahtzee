@@ -64,6 +64,96 @@ class Basic_User_Games_Tests(unittest.TestCase):
         self.valid_games=[]
         for i in range(5):
             self.valid_games.append({"name":f"my_Game_{i}"})
+        
+        self.valid_scorecards=[
+            {"score":181,
+             "categories":{"rolls_remaining":1,
+                            "upper":{
+                                "one":4,
+                                "two":8,
+                                "three":-1,
+                                "four":16,
+                                "five":20,
+                                "six":24
+                            },
+                            "lower":{
+                                "three_of_a_kind":-1,
+                                "four_of_a_kind":26,
+                                "full_house":-1,
+                                "small_straight":0,
+                                "large_straight":40,
+                                "yahtzee":0,
+                                "chance":8
+                            }
+                        }
+            },
+            {"score":288,
+             "categories":{
+                    "rolls_remaining":0,
+                    "upper":{
+                        "one":4,
+                        "two":8,
+                        "three":12,
+                        "four":16,
+                        "five":20,
+                        "six":24
+                        },
+                        "lower":{
+                            "three_of_a_kind":20,
+                            "four_of_a_kind":26,
+                            "full_house":25,
+                            "small_straight":0,
+                            "large_straight":40,
+                            "yahtzee":50,
+                            "chance":8
+                        }
+                    }
+            },
+            {"score":204,
+             "categories":{
+                    "rolls_remaining":0,
+                    "upper":{
+                        "one":4,
+                        "two":8,
+                        "three":12,
+                        "four":16,
+                        "five":20,
+                        "six":0
+                        },
+                        "lower":{
+                            "three_of_a_kind":20,
+                            "four_of_a_kind":26,
+                            "full_house":0,
+                            "small_straight":0,
+                            "large_straight":40,
+                            "yahtzee":50,
+                            "chance":8
+                        }
+                    }
+            },
+            {"score":110,
+             "categories":{
+                    "rolls_remaining":2,
+                    "upper":{
+                        "one":4,
+                        "two":8,
+                        "three":-1,
+                        "four":-1,
+                        "five":-1,
+                        "six":24
+                    },
+                    "lower":{
+                        "three_of_a_kind":-1,
+                        "four_of_a_kind":26,
+                        "full_house":-1,
+                        "small_straight":0,
+                        "large_straight":40,
+                        "yahtzee":0,
+                        "chance":8
+                    }
+                }
+            }
+        ]
                    
     def setUp(self):
         #Runs before every test
@@ -105,6 +195,7 @@ class Basic_User_Games_Tests(unittest.TestCase):
         user = self.valid_users[0]
         user = self.User_Model.create(user)["data"]
         game = self.Game_Model.create(self.valid_games[0])["data"]
+        new_game_name=game["name"]
         scorecard = self.Scorecard_Model.create(game["id"], user["id"], f"{game['name']}|{user['username']}")
         self.browser.get(f"{self.url}/{user['username']}")
         el_id = "games_list"
@@ -113,10 +204,14 @@ class Basic_User_Games_Tests(unittest.TestCase):
         self.assertTrue(len(games_list_games)==1, f"{el_id} should have 1 game <li>")
         game_link = games_list_games[0].find_elements(By.TAG_NAME, 'a')
         self.assertEqual(game_link[0].text, game['name'], f"Link text should be {game['name']}")
-        href = game_link[0].get_attribute("href")
-        link = f"/games/{game['name']}/{user['username']}"
-        valid_game_link =  (href==link) or (href==f"http://127.0.0.1:8080{link}")
-        self.assertTrue(valid_game_link, f"game link href should be /games/{game['name']}/{user['username']}")
+        game_href = game_link[0].get_attribute("href")
+        link = f"/games/{new_game_name}/{user['username']}"
+        valid_game_link =  (game_href==link) or (game_href==f"http://127.0.0.1:8080{link}")
+        self.assertTrue(valid_game_link, f"game link href should be /games/{new_game_name}/{user['username']}")
+        delete_href = game_link[1].get_attribute("href")
+        link = f"/games/delete/{new_game_name}/{user['username']}"
+        valid_game_link =  (delete_href==link) or (delete_href==f"http://127.0.0.1:8080{link}")
+        self.assertTrue(valid_game_link, f"game link href should be /games/{new_game_name}/{user['username']}")
 
         print("test_game_links_1_game... test passed!")
     
@@ -142,9 +237,13 @@ class Basic_User_Games_Tests(unittest.TestCase):
             game_name = game_link[0].text
             self.assertTrue(game_name in all_game_names, f"{game_name} should be an actual game name.")
             all_game_names.remove(game_name)
-            href = game_link[0].get_attribute("href")
+            game_href = game_link[0].get_attribute("href")
             link = f"/games/{game_name}/{user['username']}"
-            valid_game_link =  (href==link) or (href==f"http://127.0.0.1:8080{link}")
+            valid_game_link =  (game_href==link) or (game_href==f"http://127.0.0.1:8080{link}")
+            self.assertTrue(valid_game_link, f"game link href should be /games/{game_name}/{user['username']}")
+            delete_href = game_link[1].get_attribute("href")
+            link = f"/games/delete/{game_name}/{user['username']}"
+            valid_game_link =  (delete_href==link) or (delete_href==f"http://127.0.0.1:8080{link}")
             self.assertTrue(valid_game_link, f"game link href should be /games/{game_name}/{user['username']}")
 
         print("test_game_links_many_game... test passed!")
@@ -186,9 +285,13 @@ class Basic_User_Games_Tests(unittest.TestCase):
         games_list_games = games_list.find_elements(By.TAG_NAME, 'li')
         game_link = games_list_games[0].find_elements(By.TAG_NAME, 'a')
         self.assertEqual(game_link[0].text, new_game_name, f"Link text should be {new_game_name}")
-        href = game_link[0].get_attribute("href")
+        game_href = game_link[0].get_attribute("href")
         link = f"/games/{new_game_name}/{user['username']}"
-        valid_game_link =  (href==link) or (href==f"http://127.0.0.1:8080{link}")
+        valid_game_link =  (game_href==link) or (game_href==f"http://127.0.0.1:8080{link}")
+        self.assertTrue(valid_game_link, f"game link href should be /games/{new_game_name}/{user['username']}")
+        delete_href = game_link[1].get_attribute("href")
+        link = f"/games/delete/{new_game_name}/{user['username']}"
+        valid_game_link =  (delete_href==link) or (delete_href==f"http://127.0.0.1:8080{link}")
         self.assertTrue(valid_game_link, f"game link href should be /games/{new_game_name}/{user['username']}")
 
         #Check DB
@@ -225,9 +328,13 @@ class Basic_User_Games_Tests(unittest.TestCase):
             game_name = game_link[0].text
             self.assertTrue(game_name in all_game_names, f"{game_name} should be an actual game name.")
             all_game_names.remove(game_name)
-            href = game_link[0].get_attribute("href")
+            game_href = game_link[0].get_attribute("href")
             link = f"/games/{game_name}/{user['username']}"
-            valid_game_link =  (href==link) or (href==f"http://127.0.0.1:8080{link}")
+            valid_game_link =  (game_href==link) or (game_href==f"http://127.0.0.1:8080{link}")
+            self.assertTrue(valid_game_link, f"game link href should be /games/{game_name}/{user['username']}")
+            delete_href = game_link[1].get_attribute("href")
+            link = f"/games/delete/{game_name}/{user['username']}"
+            valid_game_link =  (delete_href==link) or (delete_href==f"http://127.0.0.1:8080{link}")
             self.assertTrue(valid_game_link, f"game link href should be /games/{game_name}/{user['username']}")
 
         #Check DB
@@ -248,7 +355,6 @@ class Basic_User_Games_Tests(unittest.TestCase):
         self.browser.get(link)
 
         self.enter_and_submit_user_info(self.valid_games[2]['name'], "create")
-        self.browser.save_screenshot("create_game.png")
 
         feedback_element = self.browser.find_element(By.ID, "feedback")
         self.assertTrue(len(feedback_element.text)>10, "Substantial feedback should be provided.")
@@ -263,11 +369,55 @@ class Basic_User_Games_Tests(unittest.TestCase):
         self.assertTrue(len(games)==4, f"Only original 4 games should exist in the DB")
         print("test_create_game_duplicate... test passed!")
     
+    def test_login_user_with_multiple_games(self):
+        user = self.valid_users[1]
+        user=self.User_Model.create(user)["data"]
+        all_game_names=set()
+        for i in range(4):
+            new_game=self.Game_Model.create(self.valid_games[i])['data']
+            game_name=f"{new_game['name']}|{user['username']}"
+            self.Scorecard_Model.create(new_game["id"], user["id"], game_name)
+            all_game_names.add(self.valid_games[i]['name'])
+        self.browser.get('http://127.0.0.1:8080')
+
+        username_element = self.browser.find_element(By.ID, "username_input")
+        username_element.clear()
+        username_element.send_keys(user['username'])
+        password_element = self.browser.find_element(By.ID, "password_input")
+        password_element.clear()
+        password_element.send_keys(user['password'])
+        submit_button=self.browser.find_element(By.ID, 'login_submit')
+        submit_button.click()
+
+
+        el_id = "games_list"
+        games_list = self.browser.find_element(By.ID, el_id)
+        games_list_games = games_list.find_elements(By.TAG_NAME, 'li')
+        self.assertEqual(len(games_list_games), 4, f"{el_id} should have 5 game <li>")
+        
+        for game in games_list_games:
+            game_name=self.valid_games[i]['name']
+            game_link = game.find_elements(By.TAG_NAME, 'a')
+            game_name = game_link[0].text
+            self.assertTrue(game_name in all_game_names, f"{game_name} should be an actual game name.")
+            all_game_names.remove(game_name)
+            game_href = game_link[0].get_attribute("href")
+            link = f"/games/{game_name}/{user['username']}"
+            valid_game_link =  (game_href==link) or (game_href==f"http://127.0.0.1:8080{link}")
+            self.assertTrue(valid_game_link, f"game link href should be /games/{game_name}/{user['username']}")
+            delete_href = game_link[1].get_attribute("href")
+            link = f"/games/delete/{game_name}/{user['username']}"
+            valid_game_link =  (delete_href==link) or (delete_href==f"http://127.0.0.1:8080{link}")
+            self.assertTrue(valid_game_link, f"game link href should be /games/{game_name}/{user['username']}")
+
+        print("test_login_user_with_multiple_games... test passed!")
+        
     '''
     def test_delete_game(self):
         self.browser.get(self.url)
         self.assertEqual(True, False, f"Test not yet implemented")
         # Check for presence of buttons for many games
+        # check for deleting associated scorecards
         print("test_delete_game... test passed!")
     
     def test_join_game(self):
@@ -279,21 +429,66 @@ class Basic_User_Games_Tests(unittest.TestCase):
         self.browser.get(self.url)
         self.assertEqual(True, False, f"Test not yet implemented")
         print("test_join_game_DNE... test passed!")
-    
+    '''
+
     def test_player_scores_1_game(self):
-        self.browser.get(self.url)
-        self.assertEqual(True, False, f"Test not yet implemented")
+        user = self.valid_users[1]
+        user=self.User_Model.create(user)["data"]
+        new_game=self.Game_Model.create(self.valid_games[2])['data']
+        game_name=f"{new_game['name']}|{user['username']}"
+        new_scorecard=self.Scorecard_Model.create(new_game["id"], user["id"], game_name)['data']
+        updated_card = self.valid_scorecards[0]
+        self.Scorecard_Model.update(new_scorecard['id'], new_scorecard['name'], updated_card['categories'])
+        
+        self.browser.get(f"{self.url}/{user['username']}")
+
+        el_id = "high_scores_list"
+        games_list = self.browser.find_element(By.ID, el_id)
+        games_list_games = games_list.find_elements(By.TAG_NAME, 'li')
+        self.assertEqual(len(games_list_games), 1, f"{el_id} should have 1 high score <li>")
+        text = games_list_games[0].text
+        self.assertEqual(text, f"{new_game['name']} : {updated_card['score']}", f"The high score label should be: {new_game['name']} : {updated_card['score']}")
         print("test_player_scores_1_game... test passed!")
 
     def test_player_scores_many_games(self):
-        self.browser.get(self.url)
-        self.assertEqual(True, False, f"Test not yet implemented")
+        user = self.valid_users[1]
+        user=self.User_Model.create(user)["data"]
+
+        all_score_labels = []
+        for i in range(len(self.valid_scorecards)):
+            new_game=self.Game_Model.create(self.valid_games[i])['data']
+            game_name=f"{new_game['name']}|{user['username']}"
+            valid_card= self.valid_scorecards[i]
+            new_scorecard=self.Scorecard_Model.create(new_game["id"], user["id"], game_name)['data']
+            self.Scorecard_Model.update(new_scorecard['id'], new_scorecard['name'], valid_card['categories'])
+            all_score_labels.append(f"{new_game['name']} : {valid_card['score']}")
+        
+        self.browser.get(f"{self.url}/{user['username']}")
+
+        all_score_labels.sort(key=lambda label: int(label.split(" : ")[1]), reverse=True)
+
+        el_id = "high_scores_list"
+        games_list = self.browser.find_element(By.ID, el_id)
+        games_list_games = games_list.find_elements(By.TAG_NAME, 'li')
+        self.assertEqual(len(games_list_games), len(all_score_labels), f"{el_id} should have {len(all_score_labels)} high score <li>")
+        for i in range(len(games_list_games)):
+            score_li_el = games_list_games[i]
+            text = score_li_el.text
+            self.assertEqual(text, all_score_labels[i], f"The sorted high score label should be: {all_score_labels[i]}")
+        
         print("test_player_scores_many_games... test passed!")
+
     
     def test_player_scores_0_games(self):
-        self.browser.get(self.url)
-        self.assertEqual(True, False, f"Test not yet implemented")
+        user = self.valid_users[1]
+        user=self.User_Model.create(user)["data"]
+        self.browser.get(f"{self.url}/{user['username']}")
+
+        el_id = "high_scores_list"
+        games_list = self.browser.find_element(By.ID, el_id)
+        games_list_games = games_list.find_elements(By.TAG_NAME, 'li')
+        self.assertTrue(len(games_list_games)==0, f"There should be no high score <li> elements")
         print("test_player_scores_0_games... test passed!")
-    '''
+    
 if __name__ == '__main__':
     unittest.main()
