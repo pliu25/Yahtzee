@@ -389,14 +389,12 @@ class Basic_User_Games_Tests(unittest.TestCase):
         submit_button=self.browser.find_element(By.ID, 'login_submit')
         submit_button.click()
 
-
         el_id = "games_list"
         games_list = self.browser.find_element(By.ID, el_id)
         games_list_games = games_list.find_elements(By.TAG_NAME, 'li')
-        self.assertEqual(len(games_list_games), 4, f"{el_id} should have 5 game <li>")
+        self.assertEqual(len(games_list_games), 4, f"{el_id} should have 4 game <li>")
         
         for game in games_list_games:
-            game_name=self.valid_games[i]['name']
             game_link = game.find_elements(By.TAG_NAME, 'a')
             game_name = game_link[0].text
             self.assertTrue(game_name in all_game_names, f"{game_name} should be an actual game name.")
@@ -412,14 +410,52 @@ class Basic_User_Games_Tests(unittest.TestCase):
 
         print("test_login_user_with_multiple_games... test passed!")
         
-    '''
+    
     def test_delete_game(self):
-        self.browser.get(self.url)
-        self.assertEqual(True, False, f"Test not yet implemented")
-        # Check for presence of buttons for many games
+        user = self.valid_users[2]
+        user=self.User_Model.create(user)["data"]
+        all_game_names=list()
+        for i in range(5):
+            new_game=self.Game_Model.create(self.valid_games[i])['data']
+            game_name=f"{new_game['name']}|{user['username']}"
+            self.Scorecard_Model.create(new_game["id"], user["id"], game_name)
+            all_game_names.append(self.valid_games[i]['name'])
+
+        self.browser.get(f"{self.url}/{user['username']}")
+
+        el_id = "games_list"
+        games_list = self.browser.find_element(By.ID, el_id)
+        games_list_games = games_list.find_elements(By.TAG_NAME, 'li')
+        self.assertEqual(len(games_list_games), 5, f"{el_id} should have 5 game <li>")
+        
+        game_name_to_delete = all_game_names[len(all_game_names)-2] #Delete 2nd from last game
+        print("game_name_to_delete",game_name_to_delete)
+
+        for game in games_list_games:
+            game_link = game.find_elements(By.TAG_NAME, 'a')
+            game_name = game_link[0].text
+            if game_name == game_name_to_delete:
+                delete_href = game_link[1]
+                delete_href.click()
+                break
+        
+        el_id = "games_list"
+        games_list = self.browser.find_element(By.ID, el_id)
+        games_list_games = games_list.find_elements(By.TAG_NAME, 'li')
+        self.assertEqual(len(games_list_games), 4, f"{el_id} should have 5 game <li>")
+
+        for game in games_list_games:
+            game_link = game.find_elements(By.TAG_NAME, 'a')
+            game_name = game_link[0].text
+            self.assertNotEqual(game_name, game_name_to_delete, f"{game_name_to_delete} should not have a game <li>")
+
+        result = self.Game_Model.exists(name=game_name_to_delete)
+        self.assertEqual(result['status'], "success", f".exists should return success for the deleted game name")
+        self.assertFalse(result['data'],  f".exists should return false for the deleted game name")
+
         # check for deleting associated scorecards
         print("test_delete_game... test passed!")
-    
+    '''
     def test_join_game(self):
         self.browser.get(self.url)
         self.assertEqual(True, False, f"Test not yet implemented")
@@ -430,7 +466,6 @@ class Basic_User_Games_Tests(unittest.TestCase):
         self.assertEqual(True, False, f"Test not yet implemented")
         print("test_join_game_DNE... test passed!")
     '''
-
     def test_player_scores_1_game(self):
         user = self.valid_users[1]
         user=self.User_Model.create(user)["data"]
@@ -489,6 +524,7 @@ class Basic_User_Games_Tests(unittest.TestCase):
         games_list_games = games_list.find_elements(By.TAG_NAME, 'li')
         self.assertTrue(len(games_list_games)==0, f"There should be no high score <li> elements")
         print("test_player_scores_0_games... test passed!")
-    
+   
+
 if __name__ == '__main__':
     unittest.main()

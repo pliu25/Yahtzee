@@ -5,6 +5,7 @@
   </style>
   <div class="w3-container" style="width: 100%;">
     <div class="w3-bar" style="width: 100%; background-color: rgb(240, 212, 255)">
+      <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> <!--need this so stylesheet isnt changed when url is diff-->
       <a href="/" class="w3-bar-item w3-button" style="font-family: 'Mate', serif; font-weight: bold; color: rgb(37,1,56)"> Tracking Dogs in NYC </a>
       <a href="/" class="w3-bar-item w3-button" style=" font-family: 'Mate', serif; color: rgb(37,1,56)">About</a>
       <a href="/macro" class="w3-bar-item w3-button" style=" font-family: 'Mate', serif; color: rgb(37,1,56)">Dog Populations in NYC: Zipcode Map</a>
