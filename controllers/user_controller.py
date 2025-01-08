@@ -13,6 +13,16 @@ User_DB_location = './models/yahtzeeDb.db'
 User = User_Model.User(User_DB_location, "users")
 
 def users():
+    submitted_username = request.args.get("username")
+    submitted_password = request.args.get("password")
+    user = User.get(username=submitted_username)
+
+    if submitted_username:
+        return render_template('user_details.html', request.form.get('username'))
+    else:
+        return render_template('user_details.html')
+'''
+def users():
     if request.method == 'GET':
         return render_template('user_details.html')
     
@@ -41,14 +51,14 @@ def user_details():
     if request.method == 'POST':
         if User.create()["data"]["status"] != "error":
             return render_template('user_details.html', feedback = "", user_info = user_info)
-    '''
+    '
     #update user details
     if request.method == 'POST':
         return render_template('user_details.html',request.args.get(User.update()["data"]["username"]))
     request.args.get(User.update()["data"]["password"]), request.args.get(User.update()["data"]["email"]))
     
     return render_template('user_details.html')
-    '''
+    '
 
 def update():
    return User.update() 
@@ -56,6 +66,7 @@ def update():
 def delete():
     return User.remove()
 
+'''
 
 
 

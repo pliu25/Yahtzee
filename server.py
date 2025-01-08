@@ -27,7 +27,7 @@ app.add_url_rule('/login', view_func = session_controller.login, methods = ['GET
 
 #user
 app.add_url_rule('/users', view_func = user_controller.users, methods = ['GET','POST'])
-app.add_url_rule('/users/<username>', view_func = user_controller.user_details, methods = ['GET', 'POST'])
+#app.add_url_rule('/users/<username>', view_func = user_controller.user_details, methods = ['GET', 'POST'])
 '''
 app.add_url_rule('/users/<username>', view_func = user_controller.update, methods = ['POST'])
 app.add_url_rule('/users/delete/<username>', view_func = user_controller.delete, methods = ['GET'])
