@@ -32,8 +32,9 @@ def user_details():
             user_dict = {}
         else:
             feedback = "new user successfully created!"
-            user_dict = User.create(user_info)
+            user_dict = User.create(user_info)["data"]
             return render_template('user_games.html', user_dict=user_dict, feedback=feedback)
+        
         return render_template('user_details.html', user_dict=user_dict, feedback=feedback)
 
 def update(username):
@@ -65,7 +66,7 @@ def update(username):
 def delete(username):
     if User.remove(username=username)['status'] == 'error':
         user_dict = User.get(username=username)['data']
-        return render_template('user_details.html', feedback=User.remove(username=username)['data'], user_dict=user_dict)
+        return render_template('user_details.html', user_dict=user_dict, feedback=User.remove(username=username)['data'])
     else:
         return render_template('login.html', feedback="user successfully deleted!")
 

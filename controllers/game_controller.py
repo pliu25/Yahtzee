@@ -25,10 +25,9 @@ def get_game(username):
     
     scorecards = []
     for name in game_names:
-        combined_name = name + "-" + user_dict["username"]
-        sc_data = Scorecard.get(name=combined_name)["data"]
+        sc_data = Scorecard.get(name=name + "|" + user_dict["username"])
         #print(sc_data)
-        scorecards.append((combined_name, sc_data))
+        scorecards.append((name, sc_data))
 
     high_scores = []
     for scorecard in scorecards:
