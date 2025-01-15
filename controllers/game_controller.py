@@ -13,6 +13,7 @@ User = User_Model.User(User_DB_location, "users")
 Game = Game_Model.Game(User_DB_location, "games")
 Scorecard = Scorecard_Model.Scorecard(User_DB_location, "scorecard", "users", "games")
 
+#scorecards get all games, instead of just returning game, return scorecard too
 def get_game(username):
     if not User.exists(username=username)['data']:
         return render_template('login.html', feedback="user doesn't exist!")
@@ -25,7 +26,7 @@ def get_game(username):
     
     scorecards = []
     for name in game_names:
-        sc_data = Scorecard.get(name=name + "|" + user_dict["username"])
+        sc_data = Scorecard.get(name=name + "|" + user_dict["username"])["data"]
         #print(sc_data)
         print("scorecard", (name, sc_data))
         scorecards.append((name, sc_data))
@@ -49,17 +50,26 @@ def create_game():
     }
 
     game_names = Scorecard.get_all_user_game_names(username)['data']
+    print("game_names1", game_names)
     if Game.create(game_info)["status"] == "success":
         game_names.append(game_info["name"])
+        print("game_names", game_names)
         feedback = "game successfully created!"
     else:
         feedback = Game.create(game_info)["data"]
-    
+    print("game_names2", game_names)
+
     games = []
-    for name in game_names:
+    for name in Scorecard.get_all_user_game_names(username)['data']:
         games.append(Game.get(game_name=name)["data"])
+    print("games", games)
     
-    return render_template("user_games.html", username=username, user_dict=user_dict, games=games, feedback=feedback)
+    scorecards = []
+    for name in Scorecard.get_all_user_game_names(username)['data']:
+        scorecards.append(Scorecard.get(name=name + "|" + username)["data"])
+    print("scorecards", scorecards)
+    
+    return render_template("user_games.html", username=username, user_dict=user_dict, games=games, scorecards=scorecards, feedback=feedback)
     
 def join_game():
     username = request.form.get('username')
