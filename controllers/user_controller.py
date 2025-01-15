@@ -12,15 +12,29 @@ from models import User_Model
 User_DB_location = './models/yahtzeeDb.db'
 User = User_Model.User(User_DB_location, "users")
 
-def users():
-    submitted_username = request.args.get("username")
-    submitted_password = request.args.get("password")
-    user = User.get(username=submitted_username)
+def user_details():
 
-    if submitted_username:
-        return render_template('user_details.html', request.form.get('username'))
-    else:
+    if request.method == 'GET':
         return render_template('user_details.html')
+    
+    if request.method == 'POST':
+        user_info = {
+            "username": request.form.get("username"),
+            "password": request.form.get("password"), 
+            "email": request.form.get("email")
+        }
+
+        if not request.form.get("username") or not request.form.get("password") or not request.form.get("email"):
+            return render_template('user_details.html', feedback = "please fill out the missing parts of the form!")
+        
+        if User.create(user_info)["status"] == "error":
+            feedback = User.create(user_info)["data"]
+            user_dict = {}
+        else:
+            feedback = "new user successfully created!"
+            user_dict = User.create(user_info)
+            return render_template('user_games.html', user_dict=user_dict, feedback=feedback)
+        return render_template('user_details.html', user_dict=user_dict, feedback=feedback)
 '''
 def users():
     if request.method == 'GET':
