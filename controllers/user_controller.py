@@ -27,7 +27,7 @@ def user_details():
         if not request.form.get("username") or not request.form.get("password") or not request.form.get("email"):
             return render_template('user_details.html', feedback = "please fill out the missing parts of the form!")
         
-        if User.create(user_info)["status"] == "error":
+        if User.create(user_info)["status"] != "success":
             feedback = User.create(user_info)["data"]
             user_dict = {}
         else:
@@ -35,6 +35,40 @@ def user_details():
             user_dict = User.create(user_info)
             return render_template('user_games.html', user_dict=user_dict, feedback=feedback)
         return render_template('user_details.html', user_dict=user_dict, feedback=feedback)
+
+def update(username):
+    if request.method == 'GET':
+        if User.get(username=username)['status'] != 'success':
+            user_dict = {}
+        else:
+            user_dict = User.get(username=username)['data']
+        return render_template('user_details.html', user_dict=user_dict, feedback=User.get(username=username)['data'])
+    
+    if request.method == 'POST':
+        user_info = User.get(username=username)
+        new_user_info = {
+                "username": request.form.get('username'),
+                "password": request.form.get('password'),
+                "email": request.form.get('email'),
+                "id": user_info['data']['id']
+            }
+        
+        if User.update(new_user_info)["status"] != "success":
+            feedback = User.update(new_user_info)["data"]
+            user_dict = user_info["data"]
+        else:
+            feedback = "new user successfully updated!"
+            user_dict = new_user_info
+        
+        return render_template('user_details.html', user_dict=user_dict, feedback=feedback)
+    
+def delete(username):
+    if User.remove(username=username)['status'] == 'error':
+        user_dict = User.get(User.remove(username=username)ername=username)['data']
+        return render_template('user_details.html', feedback=User.remove(username=username)['data'], user_dict=user_dict)
+    else:
+        return render_template('login.html', feedback="user successfully deleted!")
+
 '''
 def users():
     if request.method == 'GET':
