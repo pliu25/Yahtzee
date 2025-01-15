@@ -64,7 +64,7 @@ def update(username):
     
 def delete(username):
     if User.remove(username=username)['status'] == 'error':
-        user_dict = User.get(User.remove(username=username)ername=username)['data']
+        user_dict = User.get(username=username)['data']
         return render_template('user_details.html', feedback=User.remove(username=username)['data'], user_dict=user_dict)
     else:
         return render_template('login.html', feedback="user successfully deleted!")
