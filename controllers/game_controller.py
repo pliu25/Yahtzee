@@ -27,20 +27,21 @@ def get_game(username):
     for name in game_names:
         sc_data = Scorecard.get(name=name + "|" + user_dict["username"])
         #print(sc_data)
+        print("scorecard", (name, sc_data))
         scorecards.append((name, sc_data))
 
     high_scores = []
     for scorecard in scorecards:
         name = scorecard[0]
-        categories = scorecard[1]["categories"]
-        score = Scorecard.tally_score(categories)
+        score = Scorecard.tally_score(scorecard[1]["categories"])
         high_scores.append((name, score))
     high_scores.sort(key=lambda x: x[1], reverse=True)
 
     return render_template("user_games.html", user_dict=user_dict, games=games, high_scores=high_scores)
 
-def create_game(username):
+def create_game():
     username = request.form.get('username')
+    #print("username", username)
     user_dict = User.get(username=username)['data']
     game_info = {
         "name": request.form.get('game_name_input')
@@ -71,6 +72,7 @@ def join_game():
 
     name = request.form.get('game_name_input')
     card_id = Game.get(game_name=name)['data']['id']
+    print("Game.get(game_name=name)", Game.get(game_name=name))
 
     sc_create = Scorecard.create(card_id, user_id, name+"|"+username)
     if sc_create['status'] == 'success':
