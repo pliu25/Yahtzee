@@ -42,10 +42,6 @@ app.add_url_rule('/users/<username>', view_func = user_controller.update, method
 app.add_url_rule('/users/delete/<username>', view_func = user_controller.delete, methods = ['GET'])
 '''
 
-@app.route('/game')
-def game():
-    username = request.args.get("username")
-    return render_template("game.html", username = username)
 
 #console.log sends output to client (inspect page on google)
 #console = real time view
