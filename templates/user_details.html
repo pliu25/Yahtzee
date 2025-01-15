@@ -8,17 +8,23 @@
 </head>
 <body>
     {% include 'partials/navbar.html' %}
+    <section id="feedback">{{feedback}}</section>
     <form action="/users" method="POST">
         <label for="fname">Username:</label><br>
         <input type="text" id="username_input" name="username"><br>
         <label for="lname">Password:</label><br>
         <input type="text" id="password_input" name="password"><br><br>
         <label for="lname">Email:</label><br>
-        <input type="text" id="email_input" name="email">
-        <input type="hidden" id="id_input" name="id"><br><br>
-        <input type="submit" id="create_submit" value="Create">
-        <input type="submit" id="update_submit" value="Update">
-        <input type="submit" id="delete_submit" value="Delete">
+        <input type="text" id="email_input" name="email"><br>
+
+        {% if user_dict %}
+          <input type="hidden" id="id_input" name="id" value="{{user_dict['id']}}"/> 
+
+          <input type="submit" name="update" formaction="/users/{{user_dict['username']}}" id="update_button" value="Update" />
+          <input type="submit" name="delete" formaction="/users/delete/{{user_dict['username']}}" id="delete_button" value="Delete" />
+        {% else %} 
+          <input type="submit" name="create" id="create_button" value="Create" />
+        {% endif %}
       </form> 
       <!--
       <form action="/login" method="GET">
