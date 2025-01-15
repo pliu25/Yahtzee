@@ -36,6 +36,7 @@ def get_game(username):
         score = Scorecard.tally_score(scorecard[1]["categories"])
         high_scores.append((name, score))
     high_scores.sort(key=lambda x: x[1], reverse=True)
+    print(high_scores)
 
     return render_template("user_games.html", user_dict=user_dict, games=games, high_scores=high_scores)
 
