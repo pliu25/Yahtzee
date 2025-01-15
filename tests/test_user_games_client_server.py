@@ -163,7 +163,7 @@ class Basic_User_Games_Tests(unittest.TestCase):
         self.DB_location=f"{os.getcwd()}/../Models/yahtzeeDB.db" #Assumes DB lives in the Models folder which is right next to the tests folder
         self.user_table_name = "users"
         self.game_table_name = "games"
-        self.scorecard_table_name = "scorecard"
+        self.scorecard_table_name = "scorecards"
         wipe_and_clean_tables(self.DB_location, self.user_table_name, self.game_table_name, self.scorecard_table_name)
         self.User_Model = User_Model.User(self.DB_location, self.user_table_name)
         self.Game_Model = Game_Model.Game(self.DB_location, self.game_table_name)
@@ -171,13 +171,13 @@ class Basic_User_Games_Tests(unittest.TestCase):
 
     
     def test_game_required_elements(self):
-        """login.html contains all required elements/id's"""
+        """user_games.html contains all required elements/id's"""
         user = self.valid_users[0]
         self.User_Model.create(user)
         self.browser.get(f"{self.url}/{user['username']}")
         expected = self.login_requirements['title']
         actual = self.browser.title
-        self.assertEqual(actual, expected, f"The page title for user_details.html should be {expected}")
+        self.assertEqual(actual, expected, f"The page title for user_games.html should be {expected}")
         
         for expected_id in self.login_requirements['elements']:
             try:
@@ -190,7 +190,7 @@ class Basic_User_Games_Tests(unittest.TestCase):
             self.assertEqual(actual_type.lower(), expected_type, f"The type of element should be {expected_type}")
         
         print("test_game_required_elements... test passed!")
-    
+   
     def test_game_links_1_game(self):
         user = self.valid_users[0]
         user = self.User_Model.create(user)["data"]
@@ -449,13 +449,13 @@ class Basic_User_Games_Tests(unittest.TestCase):
             game_name = game_link[0].text
             self.assertNotEqual(game_name, game_name_to_delete, f"{game_name_to_delete} should not have a game <li>")
 
-        result = self.Game_Model.exists(name=game_name_to_delete)
-        self.assertEqual(result['status'], "success", f".exists should return success for the deleted game name")
-        self.assertFalse(result['data'],  f".exists should return false for the deleted game name")
+        result = self.Game_Model.get(game_name=game_name_to_delete)
+        self.assertEqual(result['status'], "error", f".get() should return error for the deleted game name")
 
         # check for deleting associated scorecards
         print("test_delete_game... test passed!")
-    '''
+
+    ''' 
     def test_join_game(self):
         self.browser.get(self.url)
         self.assertEqual(True, False, f"Test not yet implemented")
@@ -466,6 +466,7 @@ class Basic_User_Games_Tests(unittest.TestCase):
         self.assertEqual(True, False, f"Test not yet implemented")
         print("test_join_game_DNE... test passed!")
     '''
+    
     def test_player_scores_1_game(self):
         user = self.valid_users[1]
         user=self.User_Model.create(user)["data"]
