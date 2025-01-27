@@ -33,6 +33,7 @@ def get_game(username):
     
 def create_game():
     username = request.form.get("username")
+    print("username", username)
     game_name = request.form.get("create_game")
     user_dict = User.get(username=username)['data']
     
