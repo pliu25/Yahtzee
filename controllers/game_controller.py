@@ -15,111 +15,84 @@ Scorecard = Scorecard_Model.Scorecard(User_DB_location, "scorecard", "users", "g
 
 #scorecards get all games, instead of just returning game, return scorecard too
 def get_game(username):
-    if not User.exists(username=username)['data']:
-        return render_template('login.html', feedback="user doesn't exist!")
-    
     user_dict = User.get(username=username)["data"]
-    game_names = Scorecard.get_all_user_game_names(username)['data']
-    games = []
-    for name in game_names:
-        games.append(Game.get(game_name=name)["data"])
+    if User.exists(username=username)['data'] == False:
+        return render_template('login.html', feedback="user doesn't exist!", user_dict=user_dict)
+    else:   
+        game_names = Scorecard.get_all_user_game_names(username)['data']
     
-    scorecards = []
-    for name in game_names:
-        sc_data = Scorecard.get(name=name + "|" + user_dict["username"])["data"]
-        #print(sc_data)
-        print("scorecard", (name, sc_data))
-        scorecards.append((name, sc_data))
+    game_scores = {}
+    for game_name in game_names:
+        game_score = Scorecard.tally_score(Scorecard.get(f"{game_name}|{username}")["data"]["categories"])
+        game_scores[game_name]=game_score
 
-    high_scores = []
-    for scorecard in scorecards:
-        name = scorecard[0]
-        score = Scorecard.tally_score(scorecard[1]["categories"])
-        high_scores.append((name, score))
-    high_scores.sort(key=lambda x: x[1], reverse=True)
-    print(high_scores)
+        game_scores = {game_name: score for game_name, score in sorted(game_scores.items(), key=lambda item: item[1], reverse=True)}
 
-    return render_template("user_games.html", user_dict=user_dict, games=games, high_scores=high_scores)
-
+    return render_template("user_games.html", username=username, user_dict=user_dict, game_names=game_names,
+                            game_scores=game_scores)
+    
 def create_game():
-    username = request.form.get('username')
-    #print("username", username)
+    username = request.form.get("username")
+    game_name = request.form.get("create_game")
     user_dict = User.get(username=username)['data']
-    game_info = {
-        "name": request.form.get('game_name_input')
-    }
-
-    game_names = Scorecard.get_all_user_game_names(username)['data']
-    print("game_names1", game_names)
-    if Game.create(game_info)["status"] == "success":
-        game_names.append(game_info["name"])
-        print("game_names", game_names)
-        feedback = "game successfully created!"
+    
+    if User.exists(username=username)["data"] == False:
+        return render_template("user_games.html", feedback="user doesn't exist!", user_dict=user_dict)
+    elif Game.exists(game_name=game_name)["data"] == True:
+        game_names = Scorecard.get_all_user_game_names(username)["data"]
+        return render_template("user_games.html", feedback="game already exists!", username=username, game_names=game_names, user_dict=user_dict)
     else:
-        feedback = Game.create(game_info)["data"]
-    print("game_names2", game_names)
+        new_game_name = Game.create({"name":game_name})["data"]["name"]
+        new_game_id = str(Game.get(game_name=new_game_name)["data"]["id"])
+        new_user_id = str(User.get(username=username)["data"]["id"])
+        print("new_user_id", new_user_id)
 
-    games = []
-    for name in Scorecard.get_all_user_game_names(username)['data']:
-        games.append(Game.get(game_name=name)["data"])
-    print("games", games)
-    
-    scorecards = []
-    for name in Scorecard.get_all_user_game_names(username)['data']:
-        scorecards.append(Scorecard.get(name=name + "|" + username)["data"])
-    print("scorecards", scorecards)
-    
-    return render_template("user_games.html", username=username, user_dict=user_dict, games=games, scorecards=scorecards, feedback=feedback)
-    
+        new_sc = Scorecard.create(new_game_id, new_user_id, f"{new_game_name}|{username}")
+
+        game_names = Scorecard.get_all_user_game_names(username)["data"]
+
+        game_scores = {}
+        for game_name in game_names:
+            game_score = Scorecard.tally_score(Scorecard.get(f"{game_name}|{username}")["data"]["categories"])
+            game_scores[game_name]=game_score
+
+            game_scores = {game_name: score for game_name, score in sorted(game_scores.items(), key=lambda item: item[1], reverse=True)}
+        
+        return render_template("user_games.html", username=username, user_dict=user_dict, game_name=game_name, game_names=game_names,
+                            game_scores=game_scores) 
+
 def join_game():
-    username = request.form.get('username')
+    username = request.form.get("username")
+    game_name = request.form.get("join_game")
     user_dict = User.get(username=username)['data']
-    user_id = request.form.get('id')
-
-    game_names = Scorecard.get_all_user_game_names(username)['data']
-    games = []
-    for name in game_names:
-        games.append(Game.get(game_name=name)["data"])
-
-    name = request.form.get('game_name_input')
-    card_id = Game.get(game_name=name)['data']['id']
-    print("Game.get(game_name=name)", Game.get(game_name=name))
-
-    sc_create = Scorecard.create(card_id, user_id, name+"|"+username)
-    if sc_create['status'] == 'success':
-        feedback = 'successfully joined game!'
+    print("user_dict", user_dict)
+    print("username", username)
+    if User.exists(username=username)["data"] == False:
+        return render_template("user_games.html", feedback="user doesn't exist!", user_dict=user_dict)
+    elif Game.exists(game_name=game_name)["status"] == "error":
+        game_names = Scorecard.get_all_user_game_names(username)["data"]
+        return render_template("user_games.html", feedback="game doesn't exist!", user_dict=user_dict)
     else:
-        feedback = sc_create['data']
-    
-    return render_template("user_games.html", user_dict=user_dict, games=games, feedback=feedback)
+        new_game_id = str(Game.get(game_name=game_name)["data"]["id"])
+        new_sc = Scorecard.create(new_game_id, user_dict["id"], f"{game_name}|{username}")
+        game_names = Scorecard.get_all_user_game_names(username)["data"]
+        
+        return render_template("user_games.html", username=username, user_dict=user_dict, game_name=game_name, game_names=game_names) 
 
 def remove_user(username, game_name):
     user_dict = User.get(username=username)['data']
-    game_names = Scorecard.get_all_user_game_names(username)['data']
-    games = []
-    for name in game_names:
-        games.append(Game.get(game_name=name)["data"])
+    sc_name=f"{game_name}|{username}"
+    sc_id=Scorecard.get(name=sc_name)["data"]["id"]
+    deleted_sc=Scorecard.remove(sc_id)["data"]
+    deleted_game=Game.remove(game_name)
+
+    game_names = Scorecard.get_all_user_game_names(username)["data"]
     
-    if Game.remove(game_name)["status"] == "success":
-        updated_games = []
-        for game in games:
-            if game["name"] != game_name:
-                updated_games.append(game)
-        games = updated_games
-        feedback = "successfully removed user from game"
-    else:
-        feedback = Game.remove(game_name)["data"]
-    
-    return render_template("user_games.html", user_dict=user_dict, games=games, feedback=feedback)
+    game_scores = {}
+    for game_name in game_names:
+        game_score = Scorecard.tally_score(Scorecard.get(f"{game_name}|{username}")["data"]["categories"])
+        game_scores[game_name]=game_score
 
-def get_game_play(username, game_name):
-    user_dict = User.get(username=username)['data']
-    game = Game.get(game_name=game_name)
-
-    return render_template("game.html", username=user_dict["username"], game_name=game_name)
-
-
-
-    
-
-
+        game_scores = {game_name: score for game_name, score in sorted(game_scores.items(), key=lambda item: item[1], reverse=True)}
+        
+    return render_template("user_games.html", username=username, user_dict=user_dict, game_names=game_names, game_scores=game_scores)

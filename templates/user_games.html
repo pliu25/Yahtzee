@@ -8,32 +8,41 @@
 </head>
 <body>
     {% include 'partials/navbar.html' %}
-    <h1>Games</h1>
+    <h1>{{username}} Games</h1>
     <section id="feedback">{{feedback}}</section>
 
     <ol id="games_list">
-        {% for game in games %}
+        {% for game_name in game_names %}
           <li>
-            <a href="/games/{{game.name}}/{{user_dict.username}}">{{ game.name }}</a>
-            <a href="/games/delete/{{game.name}}/{{user_dict.username}}" class="btn btn-danger" role="button">Delete</a>
+            <a href="/games/{{game_name}}/{{user_dict.username}}">{{ game_name }}</a>
+            <a href="/games/delete/{{game_name}}/{{user_dict.username}}" class="btn btn-danger" role="button">Delete</a>
           </li>
         {% endfor %}
       </ol>
-  
-    <form action="/games" method="POST">
-    <input type="hidden" id="id_input" name="id" value="{{user_dict['id']}}"/> 
-    <input type="hidden" id="username_input" name="username" value="{{user_dict['username']}}">
-
-    <input type="text" name="game_name_input" id="game_name_input"/> 
     
-    <input type="submit" name="action" id="create_submit" value="Create" value="Create"/>
-    <input type="submit" name="action" id="join_submit" formaction="/games/join" value="Join"/>
-    </form>
+    <section id="user_games">
+      <form action="/games" method="POST">
+      <input type="hidden" id="id_input" name="id" value="{{user_dict['id']}}"/> 
+      <input type="hidden" id="username_input" name="username" value="{{username}}">
+
+      <input type="text" name="create_game" id="game_name_input"/> 
+      
+      <input type="submit" name="action" id="create_submit" value="Create"/>
+      </form>
+      <form action="/games/join" method="POST">
+        <input type="hidden" id="id_input" name="id" value="{{user_dict['id']}}"/> 
+        <input type="hidden" id="username_input" name="username" value="{{username}}">
+    
+        <input type="text" name="join_game" id="game_name_input"/> 
+        
+        <input type="submit" name="action" id="join_submit" value="Join"/>
+      </form>
+    </section>
 
     <h3>Your High Scores</h3>
     <ol id="high_scores_list">
-    {% for score in high_scores %}
-    <li>{{ score[0] }} : {{ score[1] }}</li>
+    {% for game_name in game_scores %}
+    <li><text>{{ game_name }} : {{ game_scores[game_name] }}</text></li>
     {% endfor %}
     </ol>
 
