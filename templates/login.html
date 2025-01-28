@@ -8,6 +8,49 @@
 </head>
 <body>
     {% include 'partials/navbar.html' %}
+
+
+    <section id="feedback">
+      <text>{{error}}</text>
+    </section>
+
+    <section id="login">
+      <form action="/login" method="GET">
+          <label for="username_input">Username:</label><br>
+          <input type="text" id="username_input" name="username"><br>
+          <label for="password">Password:</label><br>
+          <input type="text" id="password_input" name="password"> <br>
+          <input type="submit" id="login_submit" value="Login">
+      </form>
+    </section>
+
+    <section id="create_user">
+        <form action="/users" method="GET">
+            <input type="submit" id="create_submit" value="Create">
+        </form>
+    </section>
+    
+    <!--
+    <section id="login">
+      <form action="/login" method="GET">
+          <label for="username_input">Username:</label><br>
+          <input type="text" id="username_input" name="username"><br>
+          <label for="password">Password:</label><br>
+          <input type="text" id="password_input" name="password"> <br>
+          <input type="submit" id="login_submit" value="Login">
+      </form>
+    </section>
+
+    <section id="create_user">
+        <form action="/users" method="GET">
+            <input type="submit" id="create_submit" value="Create">
+        </form>
+    </section>
+
+    <section id="feedback" class="good">{{feedback}}</section>
+    -->
+
+    <!--
     <form action="/login" method="GET">
         <label for="fname">Username:</label><br>
         <input type="text" id="username_input" name="username"><br>
@@ -16,13 +59,13 @@
         <input type="submit" name="action" id="login_submit" value="Login">
         <input type="submit" name="action" id="create_submit" value="Create">
       </form> 
-      <!--
-      <form action="/users" method="GET">
+      
+      #<form action="/users" method="GET">
         <input type="submit" id="create_submit" value="Create">
       </form> 
-      -->
+      
       <section id="feedback" class="good">{{feedback}}</section>
-
+    -->
 </body>
 {% include 'partials/footer.html' %}
 </html>

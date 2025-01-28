@@ -8,43 +8,50 @@
 </head>
 <body>
     {% include 'partials/navbar.html' %}
-    <section id="feedback">{{feedback}}</section>
-    <form action="/users" method="POST">
-        <label for="fname">Username:</label><br>
-        <input type="text" id="username_input" name="username"><br>
-        <label for="lname">Password:</label><br>
-        <input type="text" id="password_input" name="password"><br><br>
-        <label for="lname">Email:</label><br>
-        <input type="text" id="email_input" name="email"><br>
+    <section id="feedback">
+      <text id="feedback-text">{{feedback}}</text>
+  </section>
 
-        {% if user_dict %}
-          <input type="hidden" id="id_input" name="id" value="{{user_dict['id']}}"/> 
+  <section id="user_info_form">
+      {% if context == 'create user' %}
+          <form action="/users" method="POST">
+              <label for="username_input">Username:</label><br>
+              <input type="text" id="username_input" name="username"><br>
+              <label for="password">Password:</label><br>
+              <input type="text" id="password_input" name="password"> <br>
+              <label for="email">Email:</label><br>
+              <input type="text" id="email_input" name="email"> <br>
 
-          <input type="submit" name="update" formaction="/users/{{user_dict['username']}}" id="update_button" value="Update" />
-          <input type="submit" name="delete" formaction="/users/delete/{{user_dict['username']}}" id="delete_button" value="Delete" />
-        {% else %} 
-          <input type="submit" name="create" id="create_button" value="Create" />
-        {% endif %}
-      </form> 
-      <!--
-      <form action="/login" method="GET">
-        <input type="submit" id="update_submit" value="Update">
-        <input type="submit" id="delete_submit" value="Delete">
-      </form> 
-      -->
-    <!--
-    <form action="/users/user_info["username"]" method="POST">
-        <input type="hidden" id="existing_id" name="id" value="user_info["id"]"><br>
-        <label for="fname">Username:</label><br>
-        <input type="text" id="existing_username" name="username" value="user_info["username"]"><br>
-        <label for="lname">Password:</label><br>
-        <input type="text" id="existing_password" name="password" value="user_info["password"]"><br><br>
-        <label for="lname">Email:</label><br>
-        <input type="text" id="existing_email" name="email" value="user_info["email"]"><br><br>
-        <input type="update" id="update" value="Update">
-        <input type="delete" id="delete" value="Delete">
-      </form>
-      -->
+              <input type="submit" id="user_details_submit" value="Create">
+          </form>
+
+          
+              
+      {% elif context == 'get user' %}
+          <form action="/users/{{username}}" method="POST">
+              <label for="username_input">Username:</label><br>
+              <input type="text" id="username_input" name="username"><br>
+              <label for="password">Password:</label><br>
+              <input type="text" id="password_input" name="password"> <br>
+              <label for="email">Email:</label><br>
+              <input type="text" id="email_input" name="email"> <br>
+
+              <input type="submit" id="user_details_submit" value="Update">
+          </form>
+          <form action="/users/delete/{{username}}" method="GET">
+              <input type="submit" id="user_details_delete_submit" value="Delete">
+          </form>
+      <!-- <button type="submit" id="login_submit">Delete</button> -->
+      {% endif %}
+
+      
+  </section>
+  <script>
+      document.getElementById("username_input").value = "{{user_name}}"
+      document.getElementById("password_input").value = "{{user_password}}"
+      document.getElementById("email_input").value = "{{user_email}}"
+  </script>
+  
 </body>
 {% include 'partials/footer.html' %}
 </html>

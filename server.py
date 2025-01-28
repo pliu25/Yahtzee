@@ -15,10 +15,32 @@ from controllers import session_controller, user_controller, game_controller, sc
 
 app = Flask(__name__, static_url_path='', static_folder='static')
 
+
+#session router
+app.add_url_rule('/', view_func=session_controller.login, methods = ['GET'])
+app.add_url_rule('/login', view_func=session_controller.login, methods = ['GET'])
+
+#game router
+app.add_url_rule('/games/<username>', view_func=game_controller.users_games, methods = ['GET'])
+app.add_url_rule('/games', view_func=game_controller.create_game, methods = ['POST'])
+app.add_url_rule('/games/join', view_func=game_controller.join_game, methods = ['POST'])
+app.add_url_rule('/games/delete/<game_name>/<username>', view_func=game_controller.delete_game, methods = ['GET'])
+# app.add_url_rule('/games/<game_name>/<username>', view_func=GameController.games, methods = ['POST'])
+
+# #scorecard router
+# app.add_url_rule('/scorecards/<scorecard_id>', view_func=ScorecardController.update_scorecard, methods = ['POST'])
+
+#user router
+app.add_url_rule('/users', view_func=user_controller.user, methods = ['GET', 'POST'])
+app.add_url_rule('/users/<username>', view_func=user_controller.single_user, methods = ['GET', 'POST'])
+app.add_url_rule('/users/delete/<username>', view_func=user_controller.delete_user, methods = ['GET'])
+
 '''
 @app.route('/')
 def login():
     return render_template("login.html")
+'''
+
 '''
 #session
 app.add_url_rule('/', view_func = session_controller.index, methods = ['GET'])
@@ -36,6 +58,7 @@ app.add_url_rule('/games', view_func = game_controller.create_game, methods = ['
 app.add_url_rule('/games/join', view_func = game_controller.join_game, methods = ['POST'])
 app.add_url_rule('/games/delete/<game_name>/<username>', view_func = game_controller.remove_user, methods = ['GET'])
 #app.add_url_rule('/games/<game_name>/<username>', view_func = game_controller.get_game_play, methods = ['GET'])
+'''
 
 '''
 app.add_url_rule('/users/<username>', view_func = user_controller.update, methods = ['POST'])
