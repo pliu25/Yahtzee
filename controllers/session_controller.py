@@ -14,31 +14,32 @@ Game = Game_Model.Game(User_DB_location, "games")
 Scorecard = Scorecard_Model.Scorecard(User_DB_location, "scorecard", "users", "games")
 
 def login():
-    # curl "http://127.0.0.1:5000"   
+    #get
+    # curl "http://127.0.0.1:5000"  
+    query_string = request.query_string
+    print(query_string, "query_string") 
     print(f"request.url={request.url}")
-    print("username and password", request.args.get('username'), request.args.get('password'))
+    
+    submitted_username = request.args.get("username")
+    submitted_password = request.args.get("password")
 
-    username = request.args.get('username')
-    password = request.args.get('password')
-
-    if (username):
-        get_user_data_packet = User.get(username=username)
-        print("get user packet", get_user_data_packet)
-        if (get_user_data_packet["status"] == "success"):
-            if (get_user_data_packet["data"]["password"] == password):
-                all_users_games = Scorecard.get_all_user_game_names(username)["data"]
+    if submitted_username:
+        user_get = User.get(username=submitted_username)
+        if user_get["status"] == "success":
+            if user_get["data"]["password"] == submitted_password:
+                user_games = Scorecard.get_all_user_game_names(submitted_username)["data"]
                 
-                all_game_scores = {}
-                for game_name in all_users_games:
-                    game_score = Scorecard.tally_score(Scorecard.get(f"{game_name}|{username}")["data"]["categories"])
-                    all_game_scores[game_name]=game_score
+                game_scores = {}
+                for game_name in user_games:
+                    game_score = Scorecard.tally_score(Scorecard.get(f"{game_name}|{submitted_username}")["data"]["categories"])
+                    game_scores[game_name]=game_score
 
-                    all_game_scores = {game_name: score for game_name, score in sorted(all_game_scores.items(), key=lambda item: item[1], reverse=True)}
-                return render_template('user_games.html', username=username, all_users_games=all_users_games, all_game_scores=all_game_scores)
+                    game_scores = {game_name: score for game_name, score in sorted(game_scores.items(), key=lambda item: item[1], reverse=True)}
+                return render_template('user_games.html', submitted_username=submitted_username, user_games=user_games, game_scores=game_scores)
             else:
-                return render_template('login.html', error = "incorrect password")
+                return render_template('login.html', feedback="incorrect password!")
         else:
-            return render_template('login.html', error = "user name doesnt exist")
+            return render_template('login.html', feedback="username doesnt exist!")
     else:
         return render_template('login.html')
 

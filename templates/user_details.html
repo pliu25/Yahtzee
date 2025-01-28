@@ -8,38 +8,33 @@
 </head>
 <body>
     {% include 'partials/navbar.html' %}
-    <section id="feedback">
-      <text id="feedback-text">{{feedback}}</text>
-  </section>
+  <section id="feedback">{{feedback}}</section>
 
-  <section id="user_info_form">
-      {% if context == 'create user' %}
+  <section id="user_form">
+      {% if aim == "new user" %}
           <form action="/users" method="POST">
-              <label for="username_input">Username:</label><br>
-              <input type="text" id="username_input" name="username"><br>
-              <label for="password">Password:</label><br>
-              <input type="text" id="password_input" name="password"> <br>
-              <label for="email">Email:</label><br>
-              <input type="text" id="email_input" name="email"> <br>
+             <label for="username_input">Username:</label><br>
+             <input type="text" id="username_input" name="username"><br>
+             <label for="password_input">Password:</label><br>
+             <input type="text" id="password_input" name="password"><br><br>
+             <label for="email_input">Email:</label><br>
+             <input type="text" id="email_input" name="email"><br>
 
-              <input type="submit" id="user_details_submit" value="Create">
-          </form>
-
-          
+              <input type="submit" id="user_details_create" value="Create">
+          </form>  
               
-      {% elif context == 'get user' %}
+      {% elif aim == "existing user" %}
           <form action="/users/{{username}}" method="POST">
               <label for="username_input">Username:</label><br>
               <input type="text" id="username_input" name="username"><br>
-              <label for="password">Password:</label><br>
-              <input type="text" id="password_input" name="password"> <br>
-              <label for="email">Email:</label><br>
-              <input type="text" id="email_input" name="email"> <br>
-
+              <label for="password_input">Password:</label><br>
+              <input type="text" id="password_input" name="password"><br><br>
+              <label for="email_input">Email:</label><br>
+              <input type="text" id="email_input" name="email"><br>
               <input type="submit" id="user_details_submit" value="Update">
           </form>
           <form action="/users/delete/{{username}}" method="GET">
-              <input type="submit" id="user_details_delete_submit" value="Delete">
+              <input type="submit" id="user_details_delete" value="Delete">
           </form>
       <!-- <button type="submit" id="login_submit">Delete</button> -->
       {% endif %}
@@ -47,9 +42,9 @@
       
   </section>
   <script>
-      document.getElementById("username_input").value = "{{user_name}}"
-      document.getElementById("password_input").value = "{{user_password}}"
-      document.getElementById("email_input").value = "{{user_email}}"
+      document.getElementById("username_input").value = "{{existing_username}}"
+      document.getElementById("password_input").value = "{{existing_user_password}}"
+      document.getElementById("email_input").value = "{{existing_user_email}}"
   </script>
   
 </body>
