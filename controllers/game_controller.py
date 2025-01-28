@@ -48,13 +48,18 @@ def create_game():
         new_scorecard = Scorecard.create(game_id, user_id, f"{game_name}|{username}")
         
         all_users_games = Scorecard.get_all_user_game_names(username)["data"]
-       
+        print("all_users_games", all_users_games)
+        for game_name in all_users_games:
+            print("game_name", game_name)
+
         all_game_scores = {}
         for game_name in all_users_games:
             game_score = Scorecard.tally_score(Scorecard.get(f"{game_name}|{username}")["data"]["categories"])
+            print("game_score", game_score)
             all_game_scores[game_name]=game_score
 
             all_game_scores = {game_name: score for game_name, score in sorted(all_game_scores.items(), key=lambda item: item[1], reverse=True)}
+            print("all_game_scores", all_game_scores)
         return render_template("user_games.html", username=username, game_name=game_name, all_users_games=all_users_games,
                                all_game_scores=all_game_scores)
     
@@ -88,7 +93,6 @@ def delete_game(game_name, username):
         all_game_scores[game_name]=game_score
 
         all_game_scores = {game_name: score for game_name, score in sorted(all_game_scores.items(), key=lambda item: item[1], reverse=True)}
-    
     return render_template("user_games.html", username=username, all_users_games=all_users_games, all_game_scores=all_game_scores)
 
 '''
