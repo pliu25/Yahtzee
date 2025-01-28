@@ -169,7 +169,7 @@ class Basic_User_Games_Tests(unittest.TestCase):
         self.Game_Model = Game_Model.Game(self.DB_location, self.game_table_name)
         self.Scorecard_Model = Scorecard_Model.Scorecard(self.DB_location, self.scorecard_table_name, self.user_table_name, self.game_table_name)
 
-    '''
+    
     def test_game_required_elements(self):
         """user_games.html contains all required elements/id's"""
         user = self.valid_users[0]
@@ -341,7 +341,7 @@ class Basic_User_Games_Tests(unittest.TestCase):
         game=self.Game_Model.get(game_name=new_game_name)
         self.assertTrue(game, f"New game should exist in the DB")
         print("test_create_game_start_with_4_games... test passed!")
-    '''
+    
     def test_create_game_duplicate(self):
         user = self.valid_users[1]
         user=self.User_Model.create(user)["data"]
@@ -382,7 +382,7 @@ class Basic_User_Games_Tests(unittest.TestCase):
         self.assertTrue(len(games)==4, f"Only original 4 games should exist in the DB")
         print("test_create_game_duplicate... test passed!")
 
-    '''
+    
     def test_login_user_with_multiple_games(self):
         user = self.valid_users[1]
         user=self.User_Model.create(user)["data"]
@@ -468,7 +468,7 @@ class Basic_User_Games_Tests(unittest.TestCase):
 
         # check for deleting associated scorecards
         print("test_delete_game... test passed!")
-    '''
+    
     ''' 
     def test_join_game(self):
         self.browser.get(self.url)
@@ -480,7 +480,7 @@ class Basic_User_Games_Tests(unittest.TestCase):
         self.assertEqual(True, False, f"Test not yet implemented")
         print("test_join_game_DNE... test passed!")
     '''
-    '''
+    
     def test_player_scores_1_game(self):
         user = self.valid_users[1]
         user=self.User_Model.create(user)["data"]
@@ -539,7 +539,7 @@ class Basic_User_Games_Tests(unittest.TestCase):
         games_list_games = games_list.find_elements(By.TAG_NAME, 'li')
         self.assertTrue(len(games_list_games)==0, f"There should be no high score <li> elements")
         print("test_player_scores_0_games... test passed!")
-    '''
+    
 
 if __name__ == '__main__':
     unittest.main()

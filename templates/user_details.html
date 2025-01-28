@@ -20,7 +20,7 @@
              <label for="email_input">Email:</label><br>
              <input type="text" id="email_input" name="email"><br>
 
-              <input type="submit" id="user_details_create" value="Create">
+              <input type="submit" id="user_details_submit" value="Create">
           </form>  
               
       {% elif aim == "existing user" %}
@@ -34,7 +34,7 @@
               <input type="submit" id="user_details_submit" value="Update">
           </form>
           <form action="/users/delete/{{username}}" method="GET">
-              <input type="submit" id="user_details_delete" value="Delete">
+              <input type="submit" id="user_details_delete_submit" value="Delete">
           </form>
       <!-- <button type="submit" id="login_submit">Delete</button> -->
       {% endif %}
