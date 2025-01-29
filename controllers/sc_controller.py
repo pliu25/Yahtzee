@@ -7,6 +7,6 @@ import sys
 fpath = os.path.join(os.path.dirname(__file__), '../models')
 sys.path.append(fpath)
 
-import Scorecard_Model 
+from models import Scorecard_Model 
 sc_DB_location = './models/yahtzeeDb.db/scorecards'
 sc = Scorecard_Model.Scorecard(sc_DB_location, "scorecards", "users", "games")

@@ -151,7 +151,7 @@ class Scorecard:
                     "data":error}
         finally:
             db_connection.close()
-
+    
     def get_all_game_usernames(self, game_name:str): 
         try: 
             db_connection = sqlite3.connect(self.db_name)
@@ -173,7 +173,7 @@ class Scorecard:
                     "data":error}
         finally:
             db_connection.close()
-
+    
     def get_all_user_game_names(self, username:str): 
         try: 
             db_connection = sqlite3.connect(self.db_name)
@@ -195,6 +195,7 @@ class Scorecard:
                     "data":error}
         finally:
             db_connection.close()
+
 
     def update(self, id, name=None, categories=None): 
         try: 

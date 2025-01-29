@@ -13,19 +13,12 @@
     <h1>{{username}} Games</h1>
       <section id="feedback">{{feedback}}</section>
       
-      <!--
-      <p>all_users_games: {{ all_users_games }}</p>
-      {% for game_name in all_users_games %}
-        <p>{{game_name}}</p>
-      {% endfor %}
-      -->
-
+      <p>DEBUG user_games: {{ user_games }}</p>
       <ol id="games_list">
         {% for game_name in user_games %}
             <li><a href="/games/{{game_name}}/{{username}}">{{game_name}}</a> <a href="/games/delete/{{game_name}}/{{username}}">Delete</a></li>
         {% endfor %}
       </ol>
-
 
       <section id="create_join_game">
           <form action="/games/join" method="POST">
