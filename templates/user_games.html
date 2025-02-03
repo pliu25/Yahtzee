@@ -42,7 +42,30 @@
               {% endfor %}
           </ol>
       </section>  
-     
+    
+    <script>
+        const join_button = document.getElementById("join_submit")
+        join_button.addEventListener("click", async function() {
+            try {
+                const response = await fetch("/games/join", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        username: username,
+                        game_name: game_name})
+                    // ...
+                }); 
+                if (!response.ok) {
+                    throw new Error(`Response status: ${response.status}`);
+                }
+
+                const json = await response.json();
+                console.log(json);
+            } catch (error) {
+                console.error(error.message);
+            }
+        });
+        
+    </script>
 
 </body>
 {% include 'partials/footer.html' %}
