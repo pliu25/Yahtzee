@@ -25,13 +25,13 @@
               <label for="game_name">Game Name:</label><br>
               <input type="text" id="join_game_input" name="join_game"><br>
               <input type="submit" id="join_submit" value="Join">
-              <input type="hidden" id="username" name="username" value="{{username}}">
+              <input type="hidden" id="username_input" name="username" value="{{username}}">
           </form>
           <form action="/games" method="POST">
               <label for="game_name">Game Name:</label><br>
               <input type="text" id="game_name_input" name="create_game"><br>
               <input type="submit" id="create_submit" value="Create">
-              <input type="hidden" id="username" name="username" value="{{username}}">
+              <input type="hidden" id="username_input" name="username" value="{{username}}">
           </form>
       </section>
 
