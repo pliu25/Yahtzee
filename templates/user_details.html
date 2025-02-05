@@ -9,7 +9,7 @@
 <body>
     {% include 'partials/navbar.html' %}
   <section id="feedback">{{feedback}}</section>
-
+  <section id="user">{{username}}</section>
   <section id="user_form">
       {% if aim == "new user" %}
           <form action="/users" method="POST">

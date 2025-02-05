@@ -34,7 +34,7 @@ def get_game(username):
                             game_scores=game_scores)
 
 def create_game():
-    username = request.form.get("username")
+    username = request.form["username"]
     print("request.form.get('username')", username)
     game_name = request.form.get("create_game")
 
