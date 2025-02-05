@@ -190,16 +190,13 @@ class Basic_User_Games_Tests(unittest.TestCase):
             self.assertEqual(actual_type.lower(), expected_type, f"The type of element should be {expected_type}")
         
         print("test_game_required_elements... test passed!")
-    '''
+   
     def test_game_links_1_game(self):
         user = self.valid_users[0]
         user = self.User_Model.create(user)["data"]
         game = self.Game_Model.create(self.valid_games[0])["data"]
         new_game_name=game["name"]
         scorecard = self.Scorecard_Model.create(game["id"], user["id"], f"{game['name']}|{user['username']}")
-        #print("User:", user)
-        #print("Game:", game)
-        #print("Scorecard:", scorecard)
         self.browser.get(f"{self.url}/{user['username']}")
         el_id = "games_list"
         games_list = self.browser.find_element(By.ID, el_id)
@@ -218,7 +215,7 @@ class Basic_User_Games_Tests(unittest.TestCase):
 
         print("test_game_links_1_game... test passed!")
     
-    '''
+    
     def test_game_links_many_game(self):
         user = self.valid_users[0]
         user = self.User_Model.create(user)["data"]
@@ -355,45 +352,22 @@ class Basic_User_Games_Tests(unittest.TestCase):
             self.Scorecard_Model.create(new_game["id"], user["id"], game_name)
             all_game_names.add(self.valid_games[i]['name'])
         link = f"{self.url}/{user['username']}" 
-        #scorecard = self.Scorecard_Model.create(game["id"], user["id"], f"{game['name']}|{user['username']}")
         self.browser.get(link)
-        print("\nCurrent URL:", self.browser.current_url)
-        print("Page title:", self.browser.title)
-        #print("all_game_names", all_game_names)
-        #print("User:", user)
-        #print("Game:", game)
-        #print("Scorecard:", scorecard)
-        #print("all_game_names:", all_game_names)
-        games_in_db = self.Game_Model.get_all()["data"]
-        #print("Games in DB:", games_in_db)
+
         self.enter_and_submit_user_info(self.valid_games[2]['name'], "create")
-        #print("DEBUG: Games in DB:", self.Game_Model.get_all()["data"])
-        #print("DEBUG: Scorecards in DB:", self.Scorecard_Model.get_all()["data"])
+
         feedback_element = self.browser.find_element(By.ID, "feedback")
         self.assertTrue(len(feedback_element.text)>10, "Substantial feedback should be provided.")
 
         el_id = "games_list"
-        print("games_list element ID:", el_id)
         games_list = self.browser.find_element(By.ID, el_id)
-        print("Games list element found:", "Yes" if games_list else "No")
-        print("games_list HTML:", games_list.get_attribute('outerHTML'))
         games_list_games = games_list.find_elements(By.TAG_NAME, 'li')
-        print("games_list_games", games_list_games)
-        #print("games_list HTML:", games_list.get_attribute('outerHTML'))
-        #print("games_list_games length:", len(games_list_games))
-        for game in games_list_games:
-            print("Game <li>:", game.get_attribute('outerHTML'))
-        games=self.Game_Model.get_all()["data"]
-        print("games", games)
-        #print("Rendered page source:", self.browser.page_source)
         self.assertEqual(len(games_list_games),4, f"{el_id} should have original 4 game <li>")
 
         #Check DB
         games=self.Game_Model.get_all()["data"]
-        #print("games", games)
         self.assertTrue(len(games)==4, f"Only original 4 games should exist in the DB")
         print("test_create_game_duplicate... test passed!")
-
     
     def test_login_user_with_multiple_games(self):
         user = self.valid_users[1]
@@ -480,17 +454,56 @@ class Basic_User_Games_Tests(unittest.TestCase):
 
         # check for deleting associated scorecards
         print("test_delete_game... test passed!")
-    
+
     ''' 
     def test_join_game(self):
         self.browser.get(self.url)
+        #initialize users and games
+
+        #join an existing game with 1 player
+
+        #join an existing game with 3 players
+
+        #check user game list for two new games
+
+        #check DB for two new scorecards
+
         self.assertEqual(True, False, f"Test not yet implemented")
         print("test_join_game... test passed!")
     
     def test_join_game_DNE(self):
         self.browser.get(self.url)
+        #initialize users and games
+
+        #join a game name that doesn't exist
+
+        #check user game list to ensure a new game hasn't been added
+
+        #check for significant feedback
+
+        #check DB for no new scorecards
+
+        #check DB for no new games
+
         self.assertEqual(True, False, f"Test not yet implemented")
         print("test_join_game_DNE... test passed!")
+    
+    def test_join_game_too_many_players(self):
+        self.browser.get(self.url)
+        #initialize users and games
+
+        #join a game that has 4 players
+
+        #check user game list to ensure a new game hasn't been added
+
+        #check for significant feedback
+
+        #check DB for no new scorecards
+
+        #check DB for no new games
+        
+        self.assertEqual(True, False, f"Test not yet implemented")
+        print("test_join_game_too_many_players... test passed!")
     '''
     
     def test_player_scores_1_game(self):
@@ -551,7 +564,7 @@ class Basic_User_Games_Tests(unittest.TestCase):
         games_list_games = games_list.find_elements(By.TAG_NAME, 'li')
         self.assertTrue(len(games_list_games)==0, f"There should be no high score <li> elements")
         print("test_player_scores_0_games... test passed!")
-    
+   
 
 if __name__ == '__main__':
     unittest.main()
