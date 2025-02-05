@@ -11,7 +11,7 @@ from models import User_Model, Game_Model, Scorecard_Model
 User_DB_location = './models/yahtzeeDb.db'
 User = User_Model.User(User_DB_location, "users")
 Game = Game_Model.Game(User_DB_location, "games")
-Scorecard = Scorecard_Model.Scorecard(User_DB_location, "scorecard", "users", "games")
+Scorecard = Scorecard_Model.Scorecard(User_DB_location, "scorecards", "users", "games")
 
 def login():
     #get

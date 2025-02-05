@@ -45,9 +45,12 @@
     
     <script>
         const join_button = document.getElementById("join_submit")
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
         join_button.addEventListener("click", async function() {
             try {
                 const response = await fetch("/games/join", {
+                    headers: myHeaders,
                     method: "POST",
                     body: JSON.stringify({
                         username: username,
